@@ -1,6 +1,6 @@
 <template>
   <nav-bar />
-  <hero-component>
+  <hero>
     <template #title>
       <h1 class="font-bold text-5xl mb-5">Listen to Great Music!</h1>
     </template>
@@ -13,7 +13,7 @@
         sublime of all the arts.
       </p>
     </template>
-  </hero-component>
+  </hero>
 
   <!-- content -->
   <play-list />
@@ -26,7 +26,7 @@
 
 <script lang="ts">
 import NavBar from "@/components/NavBar.vue";
-import HeroComponent from "@/components/Hero.vue";
+import Hero from "@/components/Hero.vue";
 import AuthModal from "@/components/AuthModal.vue";
 import Player from "@/components/MediaPlayer.vue";
 import PlayList from "@/components/PlayList.vue";
@@ -35,10 +35,10 @@ export default {
   name: "App",
   components: {
     NavBar,
-    HeroComponent,
-    AuthModal,
-    Player,
+    Hero,
     PlayList,
+    Player,
+    AuthModal,
   },
 };
 </script>
