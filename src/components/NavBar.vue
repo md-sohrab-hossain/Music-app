@@ -10,7 +10,12 @@
         <ul class="flex flex-row mt-1">
           <!-- Navigation Links -->
           <li>
-            <a class="px-2 text-white" href="#">Login / Register</a>
+            <a
+              class="px-2 text-white"
+              href="#"
+              @click.prevent="isOpen = !isOpen"
+              >Login / Register</a
+            >
           </li>
           <li>
             <a class="px-2 text-white" href="#">Manage</a>
@@ -22,7 +27,14 @@
 </template>
 
 <script lang="ts">
+import { mapStores, mapWritableState } from "pinia";
+import useModalStore from "@/stores/modal";
+
 export default {
   name: "NavBar",
+  computed: {
+    ...mapStores(useModalStore),
+    ...mapWritableState(useModalStore, ["isOpen"]),
+  },
 };
 </script>
