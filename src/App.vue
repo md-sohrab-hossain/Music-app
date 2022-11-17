@@ -1,11 +1,11 @@
 <template>
   <nav-bar />
   <hero-component>
-    <template v-slot:title>
+    <template #title>
       <h1 class="font-bold text-5xl mb-5">Listen to Great Music!</h1>
     </template>
 
-    <template v-slot:description>
+    <template #description>
       <p class="w-full md:w-8/12 mx-auto">
         The perfect music gift from one of the most trusted names in continuing
         education. Learn how to better appreciate music in this guide that will
