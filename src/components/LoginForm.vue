@@ -42,13 +42,15 @@
 </template>
 
 <script lang="ts">
+import { useSignInUser } from "@/includes/firebase";
+
 export default {
   name: "LoginForm",
   data() {
     return {
       loginSchema: {
         email: "required|email",
-        password: "required|min:9|max:100",
+        password: "required|min:6|max:100",
       },
       login_in_submission: false,
       login_show_alert: false,
@@ -57,15 +59,22 @@ export default {
     };
   },
   methods: {
-    login(values: any) {
+    async login(values: any) {
       this.login_show_alert = true;
       this.login_in_submission = true;
       this.login_alert_variant = "bg-blue-500";
       this.login_alert_msg = "Please wait! We are logging you in.";
+      const user = await useSignInUser(values.email, values.password);
 
-      this.login_alert_variant = "bg-green-500";
-      this.login_alert_msg = "Success! You are now logged in.";
-      console.log(values);
+      if (user !== "Login Successful!") {
+        this.login_in_submission = false;
+        this.login_alert_variant = "bg-red-500";
+        this.login_alert_msg =
+          "An unexpected error occurred. Please try again later!";
+      } else {
+        this.login_alert_variant = "bg-green-500";
+        this.login_alert_msg = "Success! You are now logged in.";
+      }
     },
   },
 };

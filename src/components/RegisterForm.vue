@@ -107,6 +107,8 @@
 </template>
 
 <script lang="ts">
+import { useCreateNewUser } from "@/includes/firebase";
+
 export default {
   name: "RegisterForm",
   data() {
@@ -116,7 +118,7 @@ export default {
         name: "required|min:3|max:100|alpha_spaces",
         email: "required|min:3|max:100|email",
         age: "required|min_value:18|max_value:100",
-        password: "required|min:3|max:100",
+        password: "required|min:6|max:100",
         confirm_password: "confirmed:@password",
         country: "required",
         terms: "required",
@@ -131,15 +133,22 @@ export default {
     };
   },
   methods: {
-    register(values: any) {
+    async register(values: any) {
       this.reg_show_alert = true;
       this.reg_in_submission = true;
       this.reg_alert_variant = "bg-blue-500";
       this.reg_alert_msg = "Please wait! Your account is being created.";
+      const regUser = await useCreateNewUser(values.email, values.password);
 
-      this.reg_alert_variant = "bg-green-500";
-      this.reg_alert_msg = "Success! Your account has been created.";
-      console.log(values);
+      if (regUser !== "Register Successful!") {
+        this.reg_in_submission = false;
+        this.reg_alert_variant = "bg-red-500";
+        this.reg_alert_msg =
+          "An unexpected error occurred. Please try again later!";
+      } else {
+        this.reg_alert_variant = "bg-green-500";
+        this.reg_alert_msg = "Success! Your account has been created.";
+      }
     },
   },
 };
