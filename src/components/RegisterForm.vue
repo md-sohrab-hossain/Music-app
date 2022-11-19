@@ -143,8 +143,7 @@ export default {
       if (regUser !== "Register Successful!") {
         this.reg_in_submission = false;
         this.reg_alert_variant = "bg-red-500";
-        this.reg_alert_msg =
-          "An unexpected error occurred. Please try again later!";
+        this.reg_alert_msg = regUser;
       } else {
         this.reg_alert_variant = "bg-green-500";
         this.reg_alert_msg = "Success! Your account has been created.";
