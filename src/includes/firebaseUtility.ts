@@ -1,7 +1,7 @@
+import { doc, setDoc } from "firebase/firestore";
 import {
   auth,
-  dbRef,
-  addDoc,
+  database,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "./firebaseConfig";
@@ -14,7 +14,10 @@ type userInfo = {
 };
 
 //**------------ Create new User  ------------------- */
-export const useCreateNewUser = (data: userInfo) => addDoc(dbRef, data);
+export const useCreateNewUser = (data: userInfo, uid: string) => {
+  const dbRef = doc(database, "users", uid);
+  return setDoc(dbRef, data);
+};
 
 //**------------ Create new User  ------------------- */
 

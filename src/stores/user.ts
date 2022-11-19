@@ -7,14 +7,20 @@ export default defineStore("user", {
   }),
   actions: {
     async register(values: any) {
-      await useRegisterUser(values.email, values.password);
+      const userCredential = await useRegisterUser(
+        values.email,
+        values.password
+      );
 
-      await useCreateNewUser({
+      const data = {
         name: values.name,
         email: values.email,
         age: values.age,
         country: values.country,
-      });
+      };
+      await useCreateNewUser(data, userCredential.user.uid);
+
+      this.userLoggedIn = true;
     },
   },
 });
