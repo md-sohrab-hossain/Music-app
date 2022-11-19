@@ -64,16 +64,19 @@ export default {
       this.login_in_submission = true;
       this.login_alert_variant = "bg-blue-500";
       this.login_alert_msg = "Please wait! We are logging you in.";
-      const isLogin = await useSignInUser(values.email, values.password);
 
-      if (isLogin !== "Login Successful!") {
+      try {
+        await useSignInUser(values.email, values.password);
+      } catch (error) {
         this.login_in_submission = false;
         this.login_alert_variant = "bg-red-500";
-        this.login_alert_msg = isLogin;
-      } else {
-        this.login_alert_variant = "bg-green-500";
-        this.login_alert_msg = "Success! You are now logged in.";
+        this.login_alert_msg =
+          "An unexpected error occurred. Please try again later.";
+        return;
       }
+
+      this.login_alert_variant = "bg-green-500";
+      this.login_alert_msg = "Success! You are now logged in.";
     },
   },
 };
