@@ -42,7 +42,7 @@
 </template>
 
 <script lang="ts">
-import { useSignInUser } from "@/includes/firebase";
+import { useSignInUser } from "@/includes/firebaseUtility";
 
 export default {
   name: "LoginForm",

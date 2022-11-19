@@ -107,7 +107,7 @@
 </template>
 
 <script lang="ts">
-import { useCreateNewUser } from "@/includes/firebase";
+import { useRegisterUser, useCreateNewUser } from "@/includes/firebaseUtility";
 
 export default {
   name: "RegisterForm",
@@ -138,15 +138,28 @@ export default {
       this.reg_in_submission = true;
       this.reg_alert_variant = "bg-blue-500";
       this.reg_alert_msg = "Please wait! Your account is being created.";
-      const regUser = await useCreateNewUser(values.email, values.password);
+      const regUser = await useRegisterUser(values.email, values.password);
 
       if (regUser !== "Register Successful!") {
         this.reg_in_submission = false;
         this.reg_alert_variant = "bg-red-500";
         this.reg_alert_msg = regUser;
       } else {
-        this.reg_alert_variant = "bg-green-500";
-        this.reg_alert_msg = "Success! Your account has been created.";
+        const newUser = await useCreateNewUser({
+          name: values.name,
+          email: values.email,
+          age: values.age,
+          country: values.country,
+        });
+
+        if (newUser !== "User Created successfully") {
+          this.reg_in_submission = false;
+          this.reg_alert_variant = "bg-red-500";
+          this.reg_alert_msg = newUser;
+        } else {
+          this.reg_alert_variant = "bg-green-500";
+          this.reg_alert_msg = "Success! Your account has been created.";
+        }
       }
     },
   },
