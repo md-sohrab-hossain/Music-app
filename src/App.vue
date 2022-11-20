@@ -31,6 +31,10 @@ import AuthModal from "@/components/AuthModal.vue";
 import Player from "@/components/MediaPlayer.vue";
 import PlayList from "@/components/PlayList.vue";
 
+import useUserStore from "@/stores/user";
+import { mapWritableState } from "pinia";
+import { auth } from "./includes/firebaseConfig";
+
 export default {
   name: "App",
   components: {
@@ -39,6 +43,14 @@ export default {
     PlayList,
     Player,
     AuthModal,
+  },
+  computed: {
+    ...mapWritableState(useUserStore, ["userLoggedIn"]),
+  },
+  created() {
+    if (auth.currentUser) {
+      this.userLoggedIn = true;
+    }
   },
 };
 </script>
