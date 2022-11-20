@@ -28,4 +28,8 @@ export const useRegisterUser = (email: string, password: string) => {
 export const useSignInUser = (email: string, password: string) => {
   return signInWithEmailAndPassword(auth, email, password);
 };
+
+export const useSignOutUser = () => {
+  return auth.signOut();
+};
 //**  ---------- Authentication User ----------------*//

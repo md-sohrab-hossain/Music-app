@@ -42,7 +42,8 @@
 </template>
 
 <script lang="ts">
-import { useSignInUser } from "@/includes/firebaseUtility";
+import { mapActions } from "pinia";
+import useUserStore from "@/stores/user";
 
 export default {
   name: "LoginForm",
@@ -59,6 +60,7 @@ export default {
     };
   },
   methods: {
+    ...mapActions(useUserStore, ["authenticate"]),
     async login(values: any) {
       this.login_show_alert = true;
       this.login_in_submission = true;
@@ -66,7 +68,7 @@ export default {
       this.login_alert_msg = "Please wait! We are logging you in.";
 
       try {
-        await useSignInUser(values.email, values.password);
+        await this.authenticate(values);
       } catch (error) {
         this.login_in_submission = false;
         this.login_alert_variant = "bg-red-500";
@@ -77,6 +79,7 @@ export default {
 
       this.login_alert_variant = "bg-green-500";
       this.login_alert_msg = "Success! You are now logged in.";
+      window.location.reload();
     },
   },
 };

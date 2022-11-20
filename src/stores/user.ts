@@ -1,5 +1,10 @@
 import { defineStore } from "pinia";
-import { useRegisterUser, useCreateNewUser } from "@/includes/firebaseUtility";
+import {
+  useRegisterUser,
+  useSignInUser,
+  useSignOutUser,
+  useCreateNewUser,
+} from "@/includes/firebaseUtility";
 
 export default defineStore("user", {
   state: () => ({
@@ -19,8 +24,15 @@ export default defineStore("user", {
         country: values.country,
       };
       await useCreateNewUser(data, userCredential.user.uid);
-
       this.userLoggedIn = true;
+    },
+    async authenticate(values: any) {
+      await useSignInUser(values.email, values.password);
+      this.userLoggedIn = true;
+    },
+    async signOut() {
+      await useSignOutUser();
+      this.userLoggedIn = false;
     },
   },
 });
