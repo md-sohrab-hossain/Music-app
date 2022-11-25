@@ -2,11 +2,11 @@
   <nav-bar />
   <hero>
     <template #title>
-      <h1 class="font-bold text-5xl mb-5">Listen to Great Music!</h1>
+      <h1 class="mb-5 text-5xl font-bold">Listen to Great Music!</h1>
     </template>
 
     <template #description>
-      <p class="w-full md:w-8/12 mx-auto">
+      <p class="w-full mx-auto md:w-8/12">
         The perfect music gift from one of the most trusted names in continuing
         education. Learn how to better appreciate music in this guide that will
         unlock the knowledge you need to understand “the most abstract and
@@ -15,10 +15,8 @@
     </template>
   </hero>
 
-  <!-- content -->
-  <play-list />
-  <player />
-  <!-- content -->
+  <!-- include router-view for routing -->
+  <router-view></router-view>
 
   <!-- modal -->
   <auth-modal />
@@ -28,8 +26,6 @@
 import NavBar from "@/components/NavBar.vue";
 import Hero from "@/components/Hero.vue";
 import AuthModal from "@/components/AuthModal.vue";
-import Player from "@/components/MediaPlayer.vue";
-import PlayList from "@/components/PlayList.vue";
 
 import useUserStore from "@/stores/user";
 import { mapWritableState } from "pinia";
@@ -40,8 +36,6 @@ export default {
   components: {
     NavBar,
     Hero,
-    PlayList,
-    Player,
     AuthModal,
   },
   computed: {
