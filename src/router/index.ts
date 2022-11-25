@@ -23,8 +23,8 @@ const routes = [
   },
   {
     path: "/manage",
-    component: Manage,
     name: "manage",
+    component: Manage,
     meta: {
       requiresAuth: true,
     },
@@ -49,11 +49,7 @@ router.beforeEach((to, from, next) => {
   }
 
   const store = useUserStore();
-  if (store.userLoggedIn) {
-    next();
-  } else {
-    next({ name: "home" });
-  }
+  store.userLoggedIn ? next() : next({ name: "home" });
 });
 
 export default router;
