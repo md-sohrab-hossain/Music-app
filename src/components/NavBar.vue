@@ -35,10 +35,7 @@
               >
             </li>
             <li>
-              <a
-                class="px-2 text-white"
-                href="#"
-                @click.prevent="userStore.signOut"
+              <a class="px-2 text-white" href="#" @click.prevent="signOut"
                 >Logout</a
               >
             </li>
@@ -59,6 +56,14 @@ export default {
   computed: {
     ...mapStores(useModalStore, useUserStore),
     ...mapWritableState(useModalStore, ["isOpen"]),
+  },
+  methods: {
+    signOut() {
+      this.userStore.signOut();
+      if (this.$route.meta.requiresAuth) {
+        this.$router.push({ name: "home" });
+      }
+    },
   },
 };
 </script>

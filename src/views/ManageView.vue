@@ -177,6 +177,12 @@
   </section>
 </template>
 
+<script lang="ts">
+export default {
+  name: "ManageView",
+};
+</script>
+
 <style>
 @media (min-width: 1024px) {
   .about {
