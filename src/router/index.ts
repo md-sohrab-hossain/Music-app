@@ -41,6 +41,7 @@ const router = createRouter({
   routes,
 });
 
+//? Global guard for every router
 router.beforeEach((to, from, next) => {
   if (!to.meta.requiresAuth) {
     next();
