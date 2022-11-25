@@ -2,6 +2,9 @@ import { doc, setDoc } from "firebase/firestore";
 import {
   auth,
   database,
+  storage,
+  storageRef,
+  uploadBytes,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "./firebaseConfig";
@@ -33,3 +36,10 @@ export const useSignOutUser = () => {
   return auth.signOut();
 };
 //**  ---------- Authentication User ----------------*//
+
+//** ------------ Upload File --------------------- *//
+export const uploadFile = (file: File, fileName: string) => {
+  const media = storageRef(storage, `sounds/${fileName}`);
+  uploadBytes(media, file);
+};
+//** ------------ Upload File --------------------- *//

@@ -1,5 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
+import { getStorage, ref as storageRef, uploadBytes } from "firebase/storage";
 import {
   getAuth,
   createUserWithEmailAndPassword,
@@ -21,10 +22,14 @@ const auth = getAuth();
 
 //* Initialize Realtime Database and get a reference to the service
 const database = getFirestore(app);
+const storage = getStorage(app);
 
 export {
   auth,
   database,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  storage,
+  storageRef,
+  uploadBytes,
 };
