@@ -21,48 +21,33 @@
       </div>
       <hr class="my-6" />
 
-      <!-- Progess Bars -->
-      <div class="mb-4">
-        <!-- File Name -->
-        <div class="font-bold text-sm">Just another song.mp3</div>
-        <div class="flex h-4 overflow-hidden bg-gray-200 rounded">
-          <!-- Inner Progress Bar -->
-          <div
-            class="transition-all progress-bar bg-blue-400"
-            style="width: 75%"
-          ></div>
-        </div>
-      </div>
-      <div class="mb-4">
-        <div class="font-bold text-sm">Just another song.mp3</div>
-        <div class="flex h-4 overflow-hidden bg-gray-200 rounded">
-          <div
-            class="transition-all progress-bar bg-blue-400"
-            style="width: 35%"
-          ></div>
-        </div>
-      </div>
-      <div class="mb-4">
-        <div class="font-bold text-sm">Just another song.mp3</div>
-        <div class="flex h-4 overflow-hidden bg-gray-200 rounded">
-          <div
-            class="transition-all progress-bar bg-blue-400"
-            style="width: 55%"
-          ></div>
-        </div>
-      </div>
+      <!-- Progress Bars -->
+      <template v-for="upload in uploads" :key="upload.name">
+        <ProgressBar :fileName="upload.name" :width="upload.current_progress" />
+      </template>
     </div>
   </div>
 </template>
 
 <script lang="ts">
+type Uploading = {
+  task: Object;
+  current_progress: Number;
+  name: String;
+};
+
 import { uploadFile } from "@/includes/firebaseUtility";
+import ProgressBar from "@/components/ProgressBar.vue";
+
 export default {
   name: "UploadFile",
-
+  components: {
+    ProgressBar,
+  },
   data() {
     return {
       is_dragover: false,
+      uploads: [] as Uploading[],
     };
   },
   methods: {
@@ -71,11 +56,23 @@ export default {
 
       const files = [...event.dataTransfer.files];
       files.forEach((file) => {
-        if (file.type !== "audio/mpeg") {
-          return;
-        }
+        if (file.type !== "audio/mpeg") return;
 
-        uploadFile(file, file.name);
+        const uploadMedia = uploadFile(file, file.name);
+
+        const uploadIndex =
+          this.uploads.push({
+            task: uploadMedia,
+            current_progress: 0,
+            name: file.name,
+          }) - 1;
+
+        //Progress bar
+        uploadMedia.on("state_changed", (snapshot) => {
+          const progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          this.uploads[uploadIndex].current_progress = progress;
+        });
       });
     },
   },

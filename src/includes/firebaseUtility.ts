@@ -4,7 +4,7 @@ import {
   database,
   storage,
   storageRef,
-  uploadBytes,
+  uploadBytesResumable,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "./firebaseConfig";
@@ -40,6 +40,6 @@ export const useSignOutUser = () => {
 //** ------------ Upload File --------------------- *//
 export const uploadFile = (file: File, fileName: string) => {
   const media = storageRef(storage, `sounds/${fileName}`);
-  uploadBytes(media, file);
+  return uploadBytesResumable(media, file);
 };
 //** ------------ Upload File --------------------- *//
