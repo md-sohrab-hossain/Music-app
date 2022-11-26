@@ -6,9 +6,8 @@
       <!-- Inner Progress Bar -->
       <div
         class="transition-all progress-bar bg-blue-400"
-        :class="'bg-blue-400'"
         :style="{ width: width + '%' }"
-      ></div>
+      />
     </div>
   </div>
 </template>
