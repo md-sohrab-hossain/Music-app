@@ -1,15 +1,17 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
-import {
-  getStorage,
-  ref as storageRef,
-  uploadBytesResumable,
-} from "firebase/storage";
 import {
   getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
+
+import { getFirestore } from "firebase/firestore";
+import {
+  getStorage,
+  ref as storageRef,
+  getDownloadURL,
+  uploadBytesResumable,
+} from "firebase/storage";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBoU0SzZ2gRoNobxOFsw4SX-zqxvYTytJM",
@@ -35,5 +37,6 @@ export {
   signInWithEmailAndPassword,
   storage,
   storageRef,
+  getDownloadURL,
   uploadBytesResumable,
 };

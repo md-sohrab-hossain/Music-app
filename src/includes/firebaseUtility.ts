@@ -1,4 +1,4 @@
-import { doc, setDoc } from "firebase/firestore";
+import { doc, setDoc, addDoc, collection } from "firebase/firestore";
 import {
   auth,
   database,
@@ -21,7 +21,6 @@ export const useCreateNewUser = (data: userInfo, uid: string) => {
   const dbRef = doc(database, "users", uid);
   return setDoc(dbRef, data);
 };
-
 //**------------ Create new User  ------------------- */
 
 //**  ---------- Authentication User ----------------*//
@@ -42,7 +41,15 @@ export const uploadFile = (file: File, fileName: string) => {
   const media = storageRef(storage, `sounds/${fileName}`);
   return uploadBytesResumable(media, file);
 };
-
-//?Link: https://blog.logrocket.com/firebase-cloud-storage-firebase-v9-react/
-
 //** ------------ Upload File --------------------- *//
+
+//**------------ Save File to the database  ------------------- */
+export const useSaveFile = async (data: any) => {
+  try {
+    const docRef = await addDoc(collection(database, "songs"), data);
+    return docRef;
+  } catch (error) {
+    console.log(error);
+  }
+};
+//**------------ Save File to the database  ------------------- */

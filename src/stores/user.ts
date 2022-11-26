@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+import { updateProfile } from "firebase/auth";
 import {
   useRegisterUser,
   useSignInUser,
@@ -24,6 +25,10 @@ export default defineStore("user", {
         country: values.country,
       };
       await useCreateNewUser(data, userCredential.user.uid);
+      await updateProfile(userCredential.user, {
+        displayName: values.name,
+      });
+
       this.userLoggedIn = true;
     },
     async authenticate(values: any) {

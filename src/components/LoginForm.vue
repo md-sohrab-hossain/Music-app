@@ -72,8 +72,7 @@ export default {
       } catch (error) {
         this.login_in_submission = false;
         this.login_alert_variant = "bg-red-500";
-        this.login_alert_msg =
-          "An unexpected error occurred. Please try again later.";
+        this.login_alert_msg = `An unexpected error occurred. ${error}`;
         return;
       }
 

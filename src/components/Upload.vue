@@ -45,7 +45,8 @@ type Uploading = {
   text_class?: String;
 };
 
-import { uploadFile } from "@/includes/firebaseUtility";
+import { uploadFile, useSaveFile } from "@/includes/firebaseUtility";
+import { auth, getDownloadURL } from "@/includes/firebaseConfig";
 import ProgressBar from "@/components/ProgressBar.vue";
 
 export default {
@@ -93,7 +94,24 @@ export default {
             this.uploads[uploadIndex].text_class = "text-red-400";
             console.log("upload error ", error);
           },
-          () => {
+          async () => {
+            // storing the file data in the database
+            const song = {
+              uid: auth.currentUser?.uid,
+              display_name: auth.currentUser?.displayName,
+              original_name: uploadMedia.snapshot.ref.name,
+              modified_name: uploadMedia.snapshot.ref.name,
+              genre: "",
+              url: "",
+              comment_count: 0,
+            };
+
+            song.url = await getDownloadURL(uploadMedia.snapshot.ref).then(
+              (url) => url
+            );
+
+            useSaveFile(song);
+
             this.uploads[uploadIndex].variant = "bg-green-400";
             this.uploads[uploadIndex].icon = "fas fa-check";
             this.uploads[uploadIndex].text_class = "text-green-400";

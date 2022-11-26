@@ -148,8 +148,7 @@ export default {
       } catch (error) {
         this.reg_in_submission = false;
         this.reg_alert_variant = "bg-red-500";
-        this.reg_alert_msg =
-          "An unexpected error occurred. Please try again later.";
+        this.reg_alert_msg = `An unexpected error occurred. ${error}`;
         return;
       }
 
