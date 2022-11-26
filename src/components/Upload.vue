@@ -23,7 +23,12 @@
 
       <!-- Progress Bars -->
       <template v-for="upload in uploads" :key="upload.name">
-        <ProgressBar :fileName="upload.name" :width="upload.current_progress" />
+        <ProgressBar
+          :fileName="upload.name"
+          :width="upload.current_progress"
+          :variant="upload.variant"
+          :icon="upload.icon"
+        />
       </template>
     </div>
   </div>
@@ -34,6 +39,9 @@ type Uploading = {
   task: Object;
   current_progress: Number;
   name: String;
+  variant?: String;
+  icon?: String;
+  text_class?: String;
 };
 
 import { uploadFile } from "@/includes/firebaseUtility";
@@ -65,6 +73,9 @@ export default {
             task: uploadMedia,
             current_progress: 0,
             name: file.name,
+            variant: "bg-blue-400",
+            icon: "fas fa-spinner fa-spin",
+            text_class: "",
           }) - 1;
 
         //Progress bar
