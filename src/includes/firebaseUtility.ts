@@ -42,4 +42,7 @@ export const uploadFile = (file: File, fileName: string) => {
   const media = storageRef(storage, `sounds/${fileName}`);
   return uploadBytesResumable(media, file);
 };
+
+//?Link: https://blog.logrocket.com/firebase-cloud-storage-firebase-v9-react/
+
 //** ------------ Upload File --------------------- *//
