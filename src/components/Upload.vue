@@ -39,8 +39,8 @@
 
 <script lang="ts">
 import { defineComponent, ref } from "vue";
-import { uploadSongs } from "@/includes/uploadMedia";
-import type { uploadFileType } from "@/includes/uploadMedia";
+import { uploadSongs } from "@/utility/uploadMedia";
+import type { uploadFileType } from "@/utility/uploadMedia";
 import ProgressBar from "@/components/ProgressBar.vue";
 
 export default defineComponent({

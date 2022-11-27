@@ -29,7 +29,7 @@ import AuthModal from "@/components/AuthModal.vue";
 
 import useUserStore from "@/stores/user";
 import { mapWritableState } from "pinia";
-import { auth } from "./includes/firebaseConfig";
+import { auth } from "@/utility/firebaseConfig";
 
 export default {
   name: "App",

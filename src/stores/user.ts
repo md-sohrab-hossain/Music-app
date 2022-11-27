@@ -5,7 +5,7 @@ import {
   useSignInUser,
   useSignOutUser,
   useCreateNewUser,
-} from "@/includes/firebaseUtility";
+} from "@/utility/firebaseUtility";
 
 export default defineStore("user", {
   state: () => ({

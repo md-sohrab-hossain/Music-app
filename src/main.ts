@@ -3,8 +3,8 @@ import { createPinia } from "pinia";
 
 import App from "./App.vue";
 import router from "./router";
-import VeeValidatePlugin from "./includes/validation";
-import { auth } from "./includes/firebaseConfig";
+import VeeValidatePlugin from "@/utility/validation";
+import { auth } from "@/utility/firebaseConfig";
 
 import "./assets/base.css";
 import "./assets/main.css";

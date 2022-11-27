@@ -1,6 +1,6 @@
 import type { Ref } from "vue";
-import { uploadFile, useSaveFile } from "@/includes/firebaseUtility";
-import { auth, getDownloadURL } from "@/includes/firebaseConfig";
+import { uploadFile, useSaveFile } from "@/utility/firebaseUtility";
+import { auth, getDownloadURL } from "@/utility/firebaseConfig";
 
 export interface uploadFileType {
   task: any;
