@@ -19,6 +19,8 @@
       >
         <h5>Drop your files here</h5>
       </div>
+
+      <input type="file" multiple @change="upload($event)" />
       <hr class="my-6" />
 
       <!-- Progress Bars -->
@@ -37,7 +39,7 @@
 
 <script lang="ts">
 type Uploading = {
-  task: Object;
+  task: any;
   current_progress: Number;
   name: String;
   variant?: String;
@@ -64,7 +66,11 @@ export default {
     upload(event: any) {
       this.is_dragover = false;
 
-      const files = [...event.dataTransfer.files];
+      // check is it drag event of inputFile event
+      const files = event.dataTransfer
+        ? [...event.dataTransfer.files]
+        : [...event.target.files];
+
       files.forEach((file) => {
         if (file.type !== "audio/mpeg") return;
 
@@ -119,6 +125,12 @@ export default {
         );
       });
     },
+  },
+  beforeUnmount() {
+    // suppose I moved from upload page to another page and that time if any file is on going to upload then cancel it
+    this.uploads.forEach((upload) => {
+      upload.task.cancel();
+    });
   },
 };
 </script>
