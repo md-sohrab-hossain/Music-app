@@ -15,12 +15,12 @@
         @dragleave.prevent.stop="is_dragover = false"
         @dragover.prevent.stop="is_dragover = true"
         @dragenter.prevent.stop="is_dragover = true"
-        @drop.prevent.stop="upload($event)"
+        @drop.prevent.stop="uploadFile($event)"
       >
         <h5>Drop your files here</h5>
       </div>
 
-      <input type="file" multiple @change="upload($event)" />
+      <input type="file" multiple @change="uploadFile($event)" />
       <hr class="my-6" />
 
       <!-- Progress Bars -->
@@ -38,93 +38,29 @@
 </template>
 
 <script lang="ts">
-type Uploading = {
-  task: any;
-  current_progress: Number;
-  name: String;
-  variant?: String;
-  icon?: String;
-  text_class?: String;
-};
-
-import { uploadFile, useSaveFile } from "@/includes/firebaseUtility";
-import { auth, getDownloadURL } from "@/includes/firebaseConfig";
+import { defineComponent, ref } from "vue";
+import { uploadSongs } from "@/includes/uploadMedia";
+import type { uploadFileType } from "@/includes/uploadMedia";
 import ProgressBar from "@/components/ProgressBar.vue";
 
-export default {
+export default defineComponent({
   name: "UploadFile",
   components: {
     ProgressBar,
   },
-  data() {
-    return {
-      is_dragover: false,
-      uploads: [] as Uploading[],
+  setup() {
+    const is_dragover = ref<boolean>(false);
+    const uploads = ref<uploadFileType[]>([]);
+
+    const uploadFile = (event: any) => {
+      uploadSongs(event, is_dragover, uploads);
     };
-  },
-  methods: {
-    upload(event: any) {
-      this.is_dragover = false;
 
-      // check is it drag event of inputFile event
-      const files = event.dataTransfer
-        ? [...event.dataTransfer.files]
-        : [...event.target.files];
-
-      files.forEach((file) => {
-        if (file.type !== "audio/mpeg") return;
-
-        const uploadMedia = uploadFile(file, file.name);
-
-        const uploadIndex =
-          this.uploads.push({
-            task: uploadMedia,
-            current_progress: 0,
-            name: file.name,
-            variant: "bg-blue-400",
-            icon: "fas fa-spinner fa-spin",
-            text_class: "",
-          }) - 1;
-
-        //Progress bar
-        uploadMedia.on(
-          "state_changed",
-          (snapshot) => {
-            const progress =
-              (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-            this.uploads[uploadIndex].current_progress = progress;
-          },
-          (error) => {
-            this.uploads[uploadIndex].variant = "bg-red-400";
-            this.uploads[uploadIndex].icon = "fas fa-times";
-            this.uploads[uploadIndex].text_class = "text-red-400";
-            console.log("upload error ", error);
-          },
-          async () => {
-            // storing the file data in the database
-            const song = {
-              uid: auth.currentUser?.uid,
-              display_name: auth.currentUser?.displayName,
-              original_name: uploadMedia.snapshot.ref.name,
-              modified_name: uploadMedia.snapshot.ref.name,
-              genre: "",
-              url: "",
-              comment_count: 0,
-            };
-
-            song.url = await getDownloadURL(uploadMedia.snapshot.ref).then(
-              (url) => url
-            );
-
-            useSaveFile(song);
-
-            this.uploads[uploadIndex].variant = "bg-green-400";
-            this.uploads[uploadIndex].icon = "fas fa-check";
-            this.uploads[uploadIndex].text_class = "text-green-400";
-          }
-        );
-      });
-    },
+    return {
+      uploads,
+      is_dragover,
+      uploadFile,
+    };
   },
   beforeUnmount() {
     // suppose I moved from upload page to another page and that time if any file is on going to upload then cancel it
@@ -132,5 +68,5 @@ export default {
       upload.task.cancel();
     });
   },
-};
+});
 </script>
