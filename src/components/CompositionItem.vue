@@ -14,27 +14,39 @@
         <i class="fa fa-pencil-alt"></i>
       </button>
     </div>
-  </div>
 
-  <div>
-    <form v-show="showForm">
+    <vee-form
+      v-show="showForm"
+      :initial-values="song"
+      :validation-schema="schema"
+      @submit="editSong"
+    >
       <div class="mb-3">
-        <label class="inline-block mb-2">{{ song.modified_name }}</label>
-        <input
+        <label class="inline-block mb-2">Song Title</label>
+        <vee-field
           type="text"
+          name="modified_name"
           class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition duration-500 focus:outline-none focus:border-black rounded"
           placeholder="Enter Song Title"
         />
+        <ErrorMessage class="text-red-600" name="modified_name" />
       </div>
+
       <div class="mb-3">
         <label class="inline-block mb-2">Genre</label>
-        <input
+        <vee-field
           type="text"
+          name="genre"
           class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition duration-500 focus:outline-none focus:border-black rounded"
           placeholder="Enter Genre"
         />
+        <ErrorMessage class="text-red-600" name="genre" />
       </div>
-      <button type="submit" class="py-1.5 px-3 rounded text-white bg-green-600">
+
+      <button
+        type="submit"
+        class="py-1.5 px-3 mx-1 rounded text-white bg-green-600"
+      >
         Submit
       </button>
       <button
@@ -44,11 +56,12 @@
       >
         Go Back
       </button>
-    </form>
+    </vee-form>
   </div>
 </template>
 
 <script lang="ts">
+import { ErrorMessage } from "vee-validate";
 import { defineComponent, ref } from "vue";
 export default defineComponent({
   name: "CompositionItem",
@@ -61,10 +74,20 @@ export default defineComponent({
   setup() {
     const showForm = ref<boolean>(false);
 
+    const editSong = () => {
+      console.log("edit call");
+    };
+
     return {
+      schema: {
+        modified_name: "required",
+        genre: "alpha_spaces",
+      },
       showForm,
+      editSong,
     };
   },
+  components: { ErrorMessage },
 });
 </script>
 <style></style>
