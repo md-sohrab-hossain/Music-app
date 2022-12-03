@@ -2,9 +2,12 @@
   <!-- Main Content -->
   <section class="container mx-auto mt-6">
     <div class="md:grid md:grid-cols-3 md:gap-4">
+      <!-- Upload Songs-->
       <div class="col-span-1">
-        <upload-file />
+        <upload-file :uploads="uploads" @uploadSong="uploadFile" />
       </div>
+
+      <!-- Edit Songs-->
       <div class="col-span-2">
         <div
           class="bg-white rounded border border-gray-200 relative flex flex-col"
@@ -31,11 +34,18 @@
 
 <script lang="ts">
 import { defineComponent, onMounted, ref } from "vue";
-import UploadFile from "@/components/Upload.vue";
-import CompositionItem from "@/components/CompositionItem.vue";
-
-import { useGetSongList } from "@/utility/firebaseUtility";
 import type { DocumentData } from "@firebase/firestore";
+
+/**----- Upload File Components ----- */
+import UploadFile from "@/components/Upload.vue";
+import { uploadSongs } from "@/utility/uploadMedia";
+import type { uploadFileType } from "@/utility/uploadMedia";
+/**----- Upload File Components ----- */
+
+/**----- Modify Songs List ----- */
+import CompositionItem from "@/components/CompositionItem.vue";
+import { useGetSongList } from "@/utility/firebaseUtility";
+/**----- Modify Songs List ----- */
 
 export default defineComponent({
   name: "ManageView",
@@ -44,13 +54,19 @@ export default defineComponent({
     CompositionItem,
   },
   setup() {
-    const songsList = ref<DocumentData | undefined>([]);
+    const uploads = ref<uploadFileType[]>([]);
+    const uploadFile = (event: any) => {
+      uploadSongs(event, uploads);
+    };
 
+    const songsList = ref<DocumentData | undefined>([]);
     onMounted(async () => {
       songsList.value = await useGetSongList();
     });
 
     return {
+      uploads,
+      uploadFile,
       songsList,
     };
   },

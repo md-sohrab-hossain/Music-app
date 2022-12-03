@@ -15,12 +15,22 @@
         @dragleave.prevent.stop="is_dragover = false"
         @dragover.prevent.stop="is_dragover = true"
         @dragenter.prevent.stop="is_dragover = true"
-        @drop.prevent.stop="uploadFile($event)"
+        @drop.prevent.stop="
+          is_dragover = false;
+          $emit('uploadSong', $event);
+        "
       >
         <h5>Drop your files here</h5>
       </div>
 
-      <input type="file" multiple @change="uploadFile($event)" />
+      <input
+        type="file"
+        multiple
+        @change="
+          is_dragover = false;
+          $emit('uploadSong', $event);
+        "
+      />
       <hr class="my-6" />
 
       <!-- Progress Bars -->
@@ -39,32 +49,26 @@
 
 <script lang="ts">
 import { defineComponent, ref } from "vue";
-import { uploadSongs } from "@/utility/uploadMedia";
-import type { uploadFileType } from "@/utility/uploadMedia";
 import ProgressBar from "@/components/ProgressBar.vue";
+import type { uploadFileType } from "@/utility/uploadMedia";
 
 export default defineComponent({
   name: "UploadFile",
   components: {
     ProgressBar,
   },
+  emits: ["uploadSong"],
+  props: ["uploads"],
   setup() {
     const is_dragover = ref<boolean>(false);
-    const uploads = ref<uploadFileType[]>([]);
-
-    const uploadFile = (event: any) => {
-      uploadSongs(event, is_dragover, uploads);
-    };
 
     return {
-      uploads,
       is_dragover,
-      uploadFile,
     };
   },
   beforeUnmount() {
     // suppose I moved from upload page to another page and that time if any file is on going to upload then cancel it
-    this.uploads.forEach((upload) => {
+    this.uploads.forEach((upload: uploadFileType) => {
       upload.task.cancel();
     });
   },

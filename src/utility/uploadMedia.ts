@@ -11,13 +11,7 @@ export interface uploadFileType {
   text_class?: String;
 }
 
-export const uploadSongs = (
-  event: any,
-  is_dragover: Ref<boolean>,
-  uploads: Ref<uploadFileType[]>
-) => {
-  is_dragover.value = false;
-
+export const uploadSongs = (event: any, uploads: Ref<uploadFileType[]>) => {
   // check is it drag event or inputFile event
   const files = event.dataTransfer
     ? [...event.dataTransfer.files]
