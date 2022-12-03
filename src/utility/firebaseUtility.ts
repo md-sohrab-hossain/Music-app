@@ -1,4 +1,13 @@
-import { doc, setDoc, addDoc, collection } from "firebase/firestore";
+import {
+  doc,
+  setDoc,
+  addDoc,
+  query,
+  where,
+  getDocs,
+  collection,
+} from "firebase/firestore";
+
 import {
   auth,
   database,
@@ -53,3 +62,18 @@ export const useSaveFile = async (data: any) => {
   }
 };
 //**------------ Save File to the database  ------------------- */
+
+//**------------ Get song list from database  ------------------- */
+export const useGetSongList = async () => {
+  try {
+    const data = query(
+      collection(database, "songs"),
+      where("uid", "==", auth.currentUser?.uid)
+    );
+    const songs = await getDocs(data);
+    return songs.docs.map((doc) => doc.data());
+  } catch (error) {
+    console.log(error);
+  }
+};
+//**------------ Get song list from database  ------------------- */
