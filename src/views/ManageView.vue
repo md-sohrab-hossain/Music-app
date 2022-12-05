@@ -53,7 +53,7 @@ import CompositionItem from "@/components/CompositionItem.vue";
 import {
   useGetSongList,
   useUpdateSongs,
-  deleteFile,
+  // deleteFile,
   useDeleteSong,
 } from "@/utility/firebaseUtility";
 /**----- Modify Songs List ----- */
@@ -65,6 +65,12 @@ export default defineComponent({
     CompositionItem,
   },
   setup() {
+    const songsList = ref<DocumentData>([]);
+    const show_alert = ref<boolean>(false);
+    const in_submission = ref<boolean>(false);
+    const alert_variant = ref<string>("bg-blue-500");
+    const alert_message = ref<string>("Please wait! Updating song info.");
+
     //**----- Upload File ------------ */
     const uploads = ref<uploadFileType[]>([]);
     const uploadFile = (event: any) => {
@@ -73,12 +79,6 @@ export default defineComponent({
     //**----- Upload File ------------ */
 
     //**----- Edit Songs List ------------ */
-    const songsList = ref<DocumentData>([]);
-    const show_alert = ref<boolean>(false);
-    const in_submission = ref<boolean>(false);
-    const alert_variant = ref<string>("bg-blue-500");
-    const alert_message = ref<string>("Please wait! Updating song info.");
-
     onMounted(async () => {
       const data = await useGetSongList();
       data ? (songsList.value = data) : null;

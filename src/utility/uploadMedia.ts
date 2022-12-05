@@ -65,6 +65,7 @@ export const uploadSongs = (event: any, uploads: Ref<uploadFileType[]>) => {
 
         // saved file to the database
         await useSaveFile(song);
+        window.location.reload();
 
         uploads.value[uploadIndex].variant = "bg-green-400";
         uploads.value[uploadIndex].icon = "fas fa-check";
