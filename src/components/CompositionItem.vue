@@ -19,8 +19,16 @@
       v-show="showForm"
       :initial-values="song"
       :validation-schema="schema"
-      @submit="editSong"
+      @submit="$emit('editSong', $event, song.docId)"
     >
+      <div
+        class="text-white text-center font-bold p-4 mb-4"
+        v-if="show_alert"
+        :class="alert_variant"
+      >
+        {{ alert_message }}
+      </div>
+
       <div class="mb-3">
         <label class="inline-block mb-2">Song Title</label>
         <vee-field
@@ -45,12 +53,14 @@
 
       <button
         type="submit"
+        :disabled="in_submission"
         class="py-1.5 px-3 mx-1 rounded text-white bg-green-600"
       >
         Submit
       </button>
       <button
         type="button"
+        :disabled="in_submission"
         class="py-1.5 px-3 rounded text-white bg-gray-600"
         @click.prevent="showForm = false"
       >
@@ -70,13 +80,22 @@ export default defineComponent({
       type: Object,
       required: true,
     },
+    show_alert: {
+      type: Boolean,
+    },
+    in_submission: {
+      type: Boolean,
+    },
+    alert_variant: {
+      type: String,
+    },
+    alert_message: {
+      type: String,
+    },
   },
+  emits: ["editSong"],
   setup() {
     const showForm = ref<boolean>(false);
-
-    const editSong = () => {
-      console.log("edit call");
-    };
 
     return {
       schema: {
@@ -84,10 +103,8 @@ export default defineComponent({
         genre: "alpha_spaces",
       },
       showForm,
-      editSong,
     };
   },
   components: { ErrorMessage },
 });
 </script>
-<style></style>

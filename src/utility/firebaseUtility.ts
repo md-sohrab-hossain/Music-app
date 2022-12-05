@@ -45,12 +45,12 @@ export const useSignOutUser = () => {
 };
 //**  ---------- Authentication User ----------------*//
 
-//** ------------ Upload File --------------------- *//
+//** ------------ Upload File to firebase Storage --------------------- *//
 export const uploadFile = (file: File, fileName: string) => {
   const media = storageRef(storage, `sounds/${fileName}`);
   return uploadBytesResumable(media, file);
 };
-//** ------------ Upload File --------------------- *//
+//** ------------ Upload File to firebase Storage --------------------- *//
 
 //**------------ Save File to the database  ------------------- */
 export const useSaveFile = async (data: any) => {
@@ -71,9 +71,27 @@ export const useGetSongList = async () => {
       where("uid", "==", auth.currentUser?.uid)
     );
     const songs = await getDocs(data);
-    return songs.docs.map((doc) => doc.data());
+    return songs.docs.map((doc) => {
+      const songs = {
+        ...doc.data(),
+        docId: doc.id,
+      };
+      return songs;
+    });
   } catch (error) {
     console.log(error);
   }
 };
 //**------------ Get song list from database  ------------------- */
+
+//**------------ Update songs to the database  ------------------- */
+export const useUpdateSongs = (song: Object, docId: string) => {
+  try {
+    const dbRef = doc(database, "songs", docId);
+    setDoc(dbRef, song);
+    return "updated";
+  } catch (error) {
+    console.log("error on update");
+  }
+};
+//**------------ Update songs to the database  ------------------- */

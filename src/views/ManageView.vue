@@ -22,8 +22,13 @@
             <!-- Composition Items -->
             <composition-item
               v-for="song in songsList"
+              :show_alert="show_alert"
+              :in_submission="in_submission"
+              :alert_variant="alert_variant"
+              :alert_message="alert_message"
               :key="song.docId"
               :song="song"
+              @editSong="editSong"
             />
           </div>
         </div>
@@ -45,6 +50,7 @@ import type { uploadFileType } from "@/utility/uploadMedia";
 /**----- Modify Songs List ----- */
 import CompositionItem from "@/components/CompositionItem.vue";
 import { useGetSongList } from "@/utility/firebaseUtility";
+import { useUpdateSongs } from "@/utility/firebaseUtility";
 /**----- Modify Songs List ----- */
 
 export default defineComponent({
@@ -54,20 +60,68 @@ export default defineComponent({
     CompositionItem,
   },
   setup() {
+    //**----- Upload File ------------ */
     const uploads = ref<uploadFileType[]>([]);
     const uploadFile = (event: any) => {
       uploadSongs(event, uploads);
     };
+    //**----- Upload File ------------ */
 
-    const songsList = ref<DocumentData | undefined>([]);
+    //**----- Edit Songs List ------------ */
+    const songsList = ref<DocumentData>([]);
+    const show_alert = ref<boolean>(false);
+    const in_submission = ref<boolean>(false);
+    const alert_variant = ref<string>("bg-blue-500");
+    const alert_message = ref<string>("Please wait! Updating song info.");
+
     onMounted(async () => {
-      songsList.value = await useGetSongList();
+      const data = await useGetSongList();
+      data ? (songsList.value = data) : null;
     });
+
+    const editSong = async (song: Object, docId: string) => {
+      show_alert.value = true;
+      in_submission.value = true;
+      alert_variant.value = "bg-blue-500";
+      alert_message.value = "Please wait! Updating song info.";
+
+      try {
+        const data = await useUpdateSongs(song, docId);
+        if (data === "updated") {
+          const UpdatedList = songsList.value.map((item: any) => {
+            if (item.docId === docId) {
+              return (item = song);
+            }
+            return item;
+          });
+          songsList.value = UpdatedList;
+        }
+      } catch (error) {
+        in_submission.value = false;
+        alert_variant.value = "bg-red-500";
+        alert_message.value = "Something went wrong! Try agin later";
+        return;
+      }
+
+      in_submission.value = false;
+      alert_variant.value = "bg-green-500";
+      alert_message.value = "Success!";
+
+      setTimeout(() => {
+        show_alert.value = false;
+      }, 2000);
+    };
+    //**----- Edit Songs List ------------ */
 
     return {
       uploads,
       uploadFile,
       songsList,
+      editSong,
+      show_alert,
+      in_submission,
+      alert_variant,
+      alert_message,
     };
   },
 });
