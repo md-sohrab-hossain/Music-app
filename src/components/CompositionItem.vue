@@ -3,6 +3,7 @@
     <div v-show="!showForm">
       <h4 class="inline-block text-2xl font-bold">{{ song.modified_name }}</h4>
       <button
+        @click.prevent="$emit('deleteSong', song.original_name, song.docId)"
         class="ml-1 py-1 px-2 text-sm rounded text-white bg-red-600 float-right"
       >
         <i class="fa fa-times"></i>
@@ -22,9 +23,9 @@
       @submit="$emit('editSong', $event, song.docId)"
     >
       <div
-        class="text-white text-center font-bold p-4 mb-4"
         v-if="show_alert"
         :class="alert_variant"
+        class="text-white text-center font-bold p-4 mb-4"
       >
         {{ alert_message }}
       </div>
@@ -58,6 +59,7 @@
       >
         Submit
       </button>
+
       <button
         type="button"
         :disabled="in_submission"
@@ -75,25 +77,14 @@ import { ErrorMessage } from "vee-validate";
 import { defineComponent, ref } from "vue";
 export default defineComponent({
   name: "CompositionItem",
-  props: {
-    song: {
-      type: Object,
-      required: true,
-    },
-    show_alert: {
-      type: Boolean,
-    },
-    in_submission: {
-      type: Boolean,
-    },
-    alert_variant: {
-      type: String,
-    },
-    alert_message: {
-      type: String,
-    },
-  },
-  emits: ["editSong"],
+  emits: ["editSong", "deleteSong"],
+  props: [
+    "song",
+    "show_alert",
+    "in_submission",
+    "alert_variant",
+    "alert_message",
+  ],
   setup() {
     const showForm = ref<boolean>(false);
 

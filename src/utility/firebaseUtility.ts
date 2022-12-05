@@ -5,6 +5,7 @@ import {
   query,
   where,
   getDocs,
+  deleteDoc,
   collection,
 } from "firebase/firestore";
 
@@ -13,6 +14,7 @@ import {
   database,
   storage,
   storageRef,
+  deleteObject,
   uploadBytesResumable,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -52,6 +54,13 @@ export const uploadFile = (file: File, fileName: string) => {
 };
 //** ------------ Upload File to firebase Storage --------------------- *//
 
+//** ------------ Delete File from firebase Storage --------------------- *//
+export const deleteFile = async (fileName: string) => {
+  const media = storageRef(storage, `sounds/${fileName}`);
+  await deleteObject(media);
+};
+//** ------------ Delete File from firebase Storage --------------------- *//
+
 //**------------ Save File to the database  ------------------- */
 export const useSaveFile = async (data: any) => {
   try {
@@ -62,6 +71,12 @@ export const useSaveFile = async (data: any) => {
   }
 };
 //**------------ Save File to the database  ------------------- */
+
+//** ------------ Delete File from firebase Database --------------------- *//
+export const useDeleteSong = async (docId: string) => {
+  await deleteDoc(doc(database, "songs", docId));
+};
+//** ------------ Delete File from firebase Database --------------------- *//
 
 //**------------ Get song list from database  ------------------- */
 export const useGetSongList = async () => {
@@ -88,8 +103,7 @@ export const useGetSongList = async () => {
 export const useUpdateSongs = (song: Object, docId: string) => {
   try {
     const dbRef = doc(database, "songs", docId);
-    setDoc(dbRef, song);
-    return "updated";
+    return setDoc(dbRef, song);
   } catch (error) {
     console.log("error on update");
   }

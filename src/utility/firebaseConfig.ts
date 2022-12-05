@@ -10,6 +10,7 @@ import {
   getStorage,
   ref as storageRef,
   getDownloadURL,
+  deleteObject,
   uploadBytesResumable,
 } from "firebase/storage";
 
@@ -38,5 +39,6 @@ export {
   storage,
   storageRef,
   getDownloadURL,
+  deleteObject,
   uploadBytesResumable,
 };

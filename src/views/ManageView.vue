@@ -29,6 +29,7 @@
               :key="song.docId"
               :song="song"
               @editSong="editSong"
+              @deleteSong="deleteSong"
             />
           </div>
         </div>
@@ -49,8 +50,12 @@ import type { uploadFileType } from "@/utility/uploadMedia";
 
 /**----- Modify Songs List ----- */
 import CompositionItem from "@/components/CompositionItem.vue";
-import { useGetSongList } from "@/utility/firebaseUtility";
-import { useUpdateSongs } from "@/utility/firebaseUtility";
+import {
+  useGetSongList,
+  useUpdateSongs,
+  deleteFile,
+  useDeleteSong,
+} from "@/utility/firebaseUtility";
 /**----- Modify Songs List ----- */
 
 export default defineComponent({
@@ -86,16 +91,14 @@ export default defineComponent({
       alert_message.value = "Please wait! Updating song info.";
 
       try {
-        const data = await useUpdateSongs(song, docId);
-        if (data === "updated") {
-          const UpdatedList = songsList.value.map((item: any) => {
-            if (item.docId === docId) {
-              return (item = song);
-            }
-            return item;
-          });
-          songsList.value = UpdatedList;
-        }
+        await useUpdateSongs(song, docId);
+        const UpdatedList = songsList.value.map((item: any) => {
+          if (item.docId === docId) {
+            return (item = song);
+          }
+          return item;
+        });
+        songsList.value = UpdatedList;
       } catch (error) {
         in_submission.value = false;
         alert_variant.value = "bg-red-500";
@@ -113,11 +116,28 @@ export default defineComponent({
     };
     //**----- Edit Songs List ------------ */
 
+    /**------ Delete Songs ----------- */
+    const deleteSong = (songName: string, docId: string) => {
+      try {
+        //deleteFile(songName);
+        useDeleteSong(docId);
+
+        const UpdatedList = songsList.value.filter(
+          (item: any) => item.docId !== docId
+        );
+        songsList.value = UpdatedList;
+      } catch (error) {
+        console.log("Error on delete");
+      }
+    };
+    /**------ Delete Songs ----------- */
+
     return {
       uploads,
       uploadFile,
       songsList,
       editSong,
+      deleteSong,
       show_alert,
       in_submission,
       alert_variant,

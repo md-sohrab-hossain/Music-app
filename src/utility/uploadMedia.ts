@@ -20,6 +20,7 @@ export const uploadSongs = (event: any, uploads: Ref<uploadFileType[]>) => {
   files.forEach((file) => {
     if (file.type !== "audio/mpeg") return;
 
+    // upload file to the firebase storage
     const uploadMedia = uploadFile(file, file.name);
 
     const uploadIndex =
@@ -62,6 +63,7 @@ export const uploadSongs = (event: any, uploads: Ref<uploadFileType[]>) => {
           (url) => url
         );
 
+        // saved file to the database
         await useSaveFile(song);
 
         uploads.value[uploadIndex].variant = "bg-green-400";
