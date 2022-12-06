@@ -39,7 +39,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref } from "vue";
+import { defineComponent, onMounted, watch, ref } from "vue";
 import type { DocumentData } from "@firebase/firestore";
 
 /**----- Upload File Components ----- */
@@ -66,6 +66,7 @@ export default defineComponent({
   },
   setup() {
     const songsList = ref<DocumentData>([]);
+    const isSavedFile = ref<string>("");
     const show_alert = ref<boolean>(false);
     const in_submission = ref<boolean>(false);
     const alert_variant = ref<string>("bg-blue-500");
@@ -74,8 +75,16 @@ export default defineComponent({
     //**----- Upload File ------------ */
     const uploads = ref<uploadFileType[]>([]);
     const uploadFile = (event: any) => {
-      uploadSongs(event, uploads);
+      uploadSongs(event, uploads, isSavedFile);
     };
+
+    watch(isSavedFile, async (currentValue, oldValue) => {
+      if (currentValue !== oldValue) {
+        const data = await useGetSongList();
+        data ? (songsList.value = data) : null;
+        isSavedFile.value = "";
+      }
+    });
     //**----- Upload File ------------ */
 
     //**----- Edit Songs List ------------ */

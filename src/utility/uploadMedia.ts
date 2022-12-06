@@ -11,7 +11,11 @@ export interface uploadFileType {
   text_class?: String;
 }
 
-export const uploadSongs = (event: any, uploads: Ref<uploadFileType[]>) => {
+export const uploadSongs = (
+  event: any,
+  uploads: Ref<uploadFileType[]>,
+  isSavedFile?: any
+) => {
   // check is it drag event or inputFile event
   const files = event.dataTransfer
     ? [...event.dataTransfer.files]
@@ -64,12 +68,14 @@ export const uploadSongs = (event: any, uploads: Ref<uploadFileType[]>) => {
         );
 
         // saved file to the database
-        await useSaveFile(song);
-        window.location.reload();
+        const savedFileInfo = await useSaveFile(song);
 
-        uploads.value[uploadIndex].variant = "bg-green-400";
-        uploads.value[uploadIndex].icon = "fas fa-check";
-        uploads.value[uploadIndex].text_class = "text-green-400";
+        if (savedFileInfo == "Saved File") {
+          isSavedFile.value = savedFileInfo;
+          uploads.value[uploadIndex].variant = "bg-green-400";
+          uploads.value[uploadIndex].icon = "fas fa-check";
+          uploads.value[uploadIndex].text_class = "text-green-400";
+        }
       }
     );
   });

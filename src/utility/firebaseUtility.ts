@@ -64,10 +64,11 @@ export const deleteFile = async (fileName: string) => {
 //**------------ Save File to the database  ------------------- */
 export const useSaveFile = async (data: any) => {
   try {
-    const docRef = await addDoc(collection(database, "songs"), data);
-    return docRef;
+    await addDoc(collection(database, "songs"), data);
+    return "Saved File";
   } catch (error) {
     console.log(error);
+    return "Error on saved";
   }
 };
 //**------------ Save File to the database  ------------------- */
