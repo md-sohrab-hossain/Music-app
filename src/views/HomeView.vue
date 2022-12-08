@@ -1,4 +1,5 @@
 <template>
+  <hero />
   <play-list :songs="songsList" />
   <player />
 </template>
@@ -12,12 +13,14 @@ import {
 } from "@/utility/firebaseUtility";
 import type { DocumentData } from "firebase/firestore";
 
+import Hero from "@/components/Hero.vue";
 import PlayList from "@/components/PlayList.vue";
 import Player from "@/components/MediaPlayer.vue";
 
 export default defineComponent({
   name: "HomePage",
   components: {
+    Hero,
     Player,
     PlayList,
   },
@@ -36,6 +39,7 @@ export default defineComponent({
       window.removeEventListener("scroll", handleScroll);
     });
 
+    //infinite scroll
     const handleScroll = () => {
       const { scrollTop, offsetHeight } = document.documentElement;
       const { innerHeight } = window;

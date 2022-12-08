@@ -8,8 +8,13 @@
 
     <div class="container mx-auto">
       <div class="text-white main-header-content">
-        <slot name="title"></slot>
-        <slot name="description"></slot>
+        <h1 class="mb-5 text-5xl font-bold">Listen to Great Music!</h1>
+        <p class="w-full mx-auto md:w-8/12">
+          The perfect music gift from one of the most trusted names in
+          continuing education. Learn how to better appreciate music in this
+          guide that will unlock the knowledge you need to understand “the most
+          abstract and sublime of all the arts.
+        </p>
       </div>
     </div>
 
