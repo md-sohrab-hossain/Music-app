@@ -4,9 +4,14 @@ import {
   addDoc,
   query,
   where,
+  limit,
+  orderBy,
   getDocs,
   deleteDoc,
   collection,
+  startAfter,
+  type DocumentData,
+  getDoc,
 } from "firebase/firestore";
 
 import {
@@ -79,7 +84,7 @@ export const useDeleteSong = async (docId: string) => {
 };
 //** ------------ Delete File from firebase Database --------------------- *//
 
-//**------------ Get song list from database  ------------------- */
+//**------------ Get song list from database for current User  ------------------- */
 export const useGetSongList = async () => {
   try {
     const data = query(
@@ -98,7 +103,68 @@ export const useGetSongList = async () => {
     console.log(error);
   }
 };
-//**------------ Get song list from database  ------------------- */
+//**------------ Get song list from database for current User  ------------------- */
+
+//**------------ Get All song list from database  ------------------- */
+export const useGetAllSongs = async (dataLimit: number) => {
+  try {
+    const data = query(
+      collection(database, "songs"),
+      orderBy("modified_name"),
+      limit(dataLimit)
+    );
+
+    const songs = await getDocs(data);
+    return songs.docs.map((doc) => {
+      const songs = {
+        ...doc.data(),
+        docId: doc.id,
+      };
+      return songs;
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+//**------------ Get All song list from database  ------------------- */
+
+//**------------ Get document by id from database  ------------------- */
+export const useGetDocById = async (docId: string) => {
+  try {
+    const docRef = doc(database, "songs", docId);
+    return await getDoc(docRef);
+  } catch (error) {
+    console.log(error);
+  }
+};
+//**------------ Get document by id from database  ------------------- */
+
+//**------------ Get song list from database for pagination ------------------- */
+export const useGetPaginatedSongs = async (
+  dataLimit: number,
+  lastVisible: DocumentData
+) => {
+  try {
+    const data = query(
+      collection(database, "songs"),
+      orderBy("modified_name"),
+      startAfter(lastVisible),
+      limit(dataLimit)
+    );
+
+    const songs = await getDocs(data);
+    return songs.docs.map((doc) => {
+      const songs = {
+        ...doc.data(),
+        docId: doc.id,
+      };
+      return songs;
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+//**------------ Get song list from database for pagination ------------------- */
 
 //**------------ Update songs to the database  ------------------- */
 export const useUpdateSongs = (song: Object, docId: string) => {
