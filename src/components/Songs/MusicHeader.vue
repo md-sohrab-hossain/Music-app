@@ -15,8 +15,8 @@
       </button>
       <div class="z-50 text-left ml-8">
         <!-- Song Info -->
-        <div class="text-3xl font-bold">Song Title</div>
-        <div>Blues Rock</div>
+        <div class="text-3xl font-bold">{{ songInfo.modified_name }}</div>
+        <div>{{ songInfo.genre }}</div>
       </div>
     </div>
   </section>
@@ -25,5 +25,6 @@
 <script lang="ts">
 export default {
   name: "MusicHeader",
+  props: ["songInfo"],
 };
 </script>
