@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts">
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { defineComponent, onMounted, ref } from "vue";
 import type { DocumentData } from "firebase/firestore";
 
@@ -23,13 +23,14 @@ export default defineComponent({
   },
   setup() {
     const route: any = useRoute();
-    const songInfo = ref<DocumentData | undefined>([]);
+    const router: any = useRouter();
+    const songInfo = ref<DocumentData | string>([]);
 
     onMounted(async () => {
-      const docSnapshot = await useGetDocById(route.params.id);
+      const docSnapshot: any = await useGetDocById(route.params.id);
 
-      if (!docSnapshot?.exists) route.push({ name: "home" });
-      songInfo.value = docSnapshot?.data();
+      if (!docSnapshot.exists()) router.push({ name: "home" });
+      else songInfo.value = docSnapshot;
     });
 
     return {
