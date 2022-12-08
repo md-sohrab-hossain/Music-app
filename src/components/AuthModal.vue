@@ -76,8 +76,8 @@
 <script lang="ts">
 import { mapState, mapWritableState } from "pinia";
 import useModalStore from "@/stores/modal";
-import RegisterForm from "./RegisterForm.vue";
-import LoginForm from "./LoginForm.vue";
+import RegisterForm from "@/components/Forms/RegisterForm.vue";
+import LoginForm from "@/components/Forms/LoginForm.vue";
 
 export default {
   name: "AuthModal",

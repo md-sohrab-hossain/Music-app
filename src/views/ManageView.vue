@@ -43,13 +43,13 @@ import { defineComponent, onMounted, watch, ref } from "vue";
 import type { DocumentData } from "@firebase/firestore";
 
 /**----- Upload File Components ----- */
-import UploadFile from "@/components/Upload.vue";
+import UploadFile from "@/components/Manage/Upload.vue";
 import { uploadSongs } from "@/utility/uploadMedia";
 import type { uploadFileType } from "@/utility/uploadMedia";
 /**----- Upload File Components ----- */
 
 /**----- Modify Songs List ----- */
-import CompositionItem from "@/components/CompositionItem.vue";
+import CompositionItem from "@/components/Manage/CompositionItem.vue";
 import {
   useGetSongList,
   useUpdateSongs,

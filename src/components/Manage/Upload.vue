@@ -49,7 +49,7 @@
 
 <script lang="ts">
 import { defineComponent, ref } from "vue";
-import ProgressBar from "@/components/ProgressBar.vue";
+import ProgressBar from "@/components/Manage/ProgressBar.vue";
 import type { uploadFileType } from "@/utility/uploadMedia";
 
 export default defineComponent({
