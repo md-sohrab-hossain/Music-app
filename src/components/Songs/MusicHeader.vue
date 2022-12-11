@@ -15,8 +15,8 @@
       </button>
       <div class="z-50 text-left ml-8">
         <!-- Song Info -->
-        <div class="text-3xl font-bold">{{ songInfo.modified_name }}</div>
-        <div>{{ songInfo.genre }}</div>
+        <div class="text-3xl font-bold">{{ songInfo?.modified_name }}</div>
+        <div>{{ songInfo?.genre }}</div>
       </div>
     </div>
   </section>

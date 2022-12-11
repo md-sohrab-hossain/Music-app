@@ -24,13 +24,13 @@ export default defineComponent({
   setup() {
     const route: any = useRoute();
     const router: any = useRouter();
-    const songInfo = ref<DocumentData | string>([]);
+    const songInfo = ref<DocumentData>([]);
 
     onMounted(async () => {
       const docSnapshot: any = await useGetDocById(route.params.id);
 
       if (!docSnapshot.exists()) router.push({ name: "home" });
-      else songInfo.value = docSnapshot;
+      else songInfo.value = docSnapshot.data();
     });
 
     return {
