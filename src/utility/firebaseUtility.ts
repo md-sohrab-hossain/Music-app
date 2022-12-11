@@ -78,6 +78,18 @@ export const useSaveFile = async (data: any) => {
 };
 //**------------ Save File to the database  ------------------- */
 
+//**------------ Add Comment to the database  ------------------- */
+export const useAddComment = async (data: any) => {
+  try {
+    await addDoc(collection(database, "comments"), data);
+    return "Comment Added!";
+  } catch (error) {
+    console.log(error);
+    return "Error on saved";
+  }
+};
+//**------------ Add Comment to the database  ------------------- */
+
 //** ------------ Delete File from firebase Database --------------------- *//
 export const useDeleteSong = async (docId: string) => {
   await deleteDoc(doc(database, "songs", docId));
