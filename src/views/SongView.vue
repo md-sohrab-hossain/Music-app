@@ -7,7 +7,7 @@
     :comment_alert_variant="comment_alert_variant"
     :comment_alert_message="comment_alert_message"
   />
-  <comments-list />
+  <comments-list :comments="commentsList" />
 </template>
 
 <script lang="ts">
@@ -18,7 +18,11 @@ import type { DocumentData } from "firebase/firestore";
 import MusicHeader from "@/components/Songs/MusicHeader.vue";
 import CommentsForm from "@/components/Songs/CommentsForm.vue";
 import CommentsList from "@/components/Songs/CommentsList.vue";
-import { useGetDocById, useAddComment } from "@/utility/firebaseUtility";
+import {
+  useGetDocById,
+  useAddComment,
+  useGetComments,
+} from "@/utility/firebaseUtility";
 import { auth } from "@/utility/firebaseConfig";
 
 export default defineComponent({
@@ -32,6 +36,7 @@ export default defineComponent({
     const route: any = useRoute();
     const router: any = useRouter();
     const songInfo = ref<DocumentData>([]);
+    const commentsList = ref<DocumentData | undefined>([]);
     const comment_in_submission = ref<boolean>(false);
     const comment_show_alert = ref<boolean>(false);
     const comment_alert_variant = ref<string>("bg-blue-500");
@@ -44,8 +49,11 @@ export default defineComponent({
 
       if (!docSnapshot.exists()) router.push({ name: "home" });
       else songInfo.value = docSnapshot.data();
+
+      commentsList.value = await getComment();
     });
 
+    const getComment = async () => await useGetComments(route.params.id);
     const addComment = async (event: any) => {
       comment_show_alert.value = true;
       comment_in_submission.value = true;
@@ -67,6 +75,7 @@ export default defineComponent({
         comment_in_submission.value = false;
         comment_alert_variant.value = "bg-green-500";
         comment_alert_message.value = "Comment added!";
+        commentsList.value = await getComment();
 
         setTimeout(() => {
           comment_show_alert.value = false;
@@ -77,6 +86,7 @@ export default defineComponent({
     return {
       songInfo,
       addComment,
+      commentsList,
       comment_show_alert,
       comment_in_submission,
       comment_alert_variant,

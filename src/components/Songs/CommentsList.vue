@@ -1,76 +1,19 @@
 <template>
   <!-- Comments -->
-  <ul class="container mx-auto">
+  <ul
+    class="container mx-auto"
+    v-for="comment in comments"
+    :key="comment.docId"
+  >
     <li class="p-6 bg-gray-50 border border-gray-200">
       <!-- Comment Author -->
       <div class="mb-5">
-        <div class="font-bold">Elaine Dreyfuss</div>
-        <time>5 mins ago</time>
+        <div class="font-bold">{{ comment.name }}</div>
+        <time>{{ comment.datePosted }}</time>
       </div>
 
       <p>
-        Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-        accusantium der doloremque laudantium.
-      </p>
-    </li>
-    <li class="p-6 bg-gray-50 border border-gray-200">
-      <!-- Comment Author -->
-      <div class="mb-5">
-        <div class="font-bold">Elaine Dreyfuss</div>
-        <time>5 mins ago</time>
-      </div>
-
-      <p>
-        Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-        accusantium der doloremque laudantium.
-      </p>
-    </li>
-    <li class="p-6 bg-gray-50 border border-gray-200">
-      <!-- Comment Author -->
-      <div class="mb-5">
-        <div class="font-bold">Elaine Dreyfuss</div>
-        <time>5 mins ago</time>
-      </div>
-
-      <p>
-        Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-        accusantium der doloremque laudantium.
-      </p>
-    </li>
-    <li class="p-6 bg-gray-50 border border-gray-200">
-      <!-- Comment Author -->
-      <div class="mb-5">
-        <div class="font-bold">Elaine Dreyfuss</div>
-        <time>5 mins ago</time>
-      </div>
-
-      <p>
-        Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-        accusantium der doloremque laudantium.
-      </p>
-    </li>
-    <li class="p-6 bg-gray-50 border border-gray-200">
-      <!-- Comment Author -->
-      <div class="mb-5">
-        <div class="font-bold">Elaine Dreyfuss</div>
-        <time>5 mins ago</time>
-      </div>
-
-      <p>
-        Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-        accusantium der doloremque laudantium.
-      </p>
-    </li>
-    <li class="p-6 bg-gray-50 border border-gray-200">
-      <!-- Comment Author -->
-      <div class="mb-5">
-        <div class="font-bold">Elaine Dreyfuss</div>
-        <time>5 mins ago</time>
-      </div>
-
-      <p>
-        Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-        accusantium der doloremque laudantium.
+        {{ comment.content }}
       </p>
     </li>
   </ul>
@@ -81,5 +24,6 @@ import { defineComponent } from "vue";
 
 export default defineComponent({
   name: "CommentsList",
+  props: ["comments"],
 });
 </script>

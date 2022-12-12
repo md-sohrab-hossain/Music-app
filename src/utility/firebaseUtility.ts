@@ -90,12 +90,6 @@ export const useAddComment = async (data: any) => {
 };
 //**------------ Add Comment to the database  ------------------- */
 
-//** ------------ Delete File from firebase Database --------------------- *//
-export const useDeleteSong = async (docId: string) => {
-  await deleteDoc(doc(database, "songs", docId));
-};
-//** ------------ Delete File from firebase Database --------------------- *//
-
 //**------------ Get song list from database for current User  ------------------- */
 export const useGetSongList = async () => {
   try {
@@ -178,6 +172,28 @@ export const useGetPaginatedSongs = async (
 };
 //**------------ Get song list from database for pagination ------------------- */
 
+//**------------ Get comment list from database where sid=songId  ------------------- */
+export const useGetComments = async (songId: string) => {
+  try {
+    const data = query(
+      collection(database, "comments"),
+      where("sid", "==", songId)
+    );
+
+    const songs = await getDocs(data);
+    return songs.docs.map((doc) => {
+      const songs = {
+        ...doc.data(),
+        docId: doc.id,
+      };
+      return songs;
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+//**------------ Get comment list from database where sid=songId  ------------------- */
+
 //**------------ Update songs to the database  ------------------- */
 export const useUpdateSongs = (song: Object, docId: string) => {
   try {
@@ -188,3 +204,9 @@ export const useUpdateSongs = (song: Object, docId: string) => {
   }
 };
 //**------------ Update songs to the database  ------------------- */
+
+//** ------------ Delete File from firebase Database --------------------- *//
+export const useDeleteSong = async (docId: string) => {
+  await deleteDoc(doc(database, "songs", docId));
+};
+//** ------------ Delete File from firebase Database --------------------- *//
