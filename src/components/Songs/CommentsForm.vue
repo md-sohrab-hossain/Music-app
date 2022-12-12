@@ -19,7 +19,7 @@
         <vee-form
           v-if="userLoggedIn"
           :validation-schema="schema"
-          @submit="$emit('addComment', $event)"
+          @submit="$emit('addComment')"
         >
           <vee-field
             as="textarea"
@@ -39,6 +39,7 @@
         <!-- Sort Comments -->
         <select
           class="block mt-4 py-1.5 px-3 text-gray-800 border border-gray-300 transition duration-500 focus:outline-none focus:border-black rounded"
+          @click="$emit('sortComments', $event)"
         >
           <option value="1">Latest</option>
           <option value="2">Oldest</option>
@@ -55,7 +56,7 @@ import { ErrorMessage } from "vee-validate";
 
 export default {
   name: "CommentsForm",
-  emits: ["addComment"],
+  emits: ["addComment", "sortComments"],
   props: [
     "comment_show_alert",
     "comment_in_submission",

@@ -2,6 +2,7 @@
   <music-header :songInfo="songInfo" />
   <comments-form
     @addComment="addComment"
+    @sortComments="sortComments"
     :comment_show_alert="comment_show_alert"
     :comment_in_submission="comment_in_submission"
     :comment_alert_variant="comment_alert_variant"
@@ -83,9 +84,14 @@ export default defineComponent({
       }
     };
 
+    const sortComments = (event: any) => {
+      console.log("comments -- ", event.target.value);
+    };
+
     return {
       songInfo,
       addComment,
+      sortComments,
       commentsList,
       comment_show_alert,
       comment_in_submission,
