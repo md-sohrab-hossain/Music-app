@@ -3,6 +3,7 @@
   <comments-form
     @addComment="addComment"
     @sortComments="sortComments"
+    :comments="commentsList"
     :comment_show_alert="comment_show_alert"
     :comment_in_submission="comment_in_submission"
     :comment_alert_variant="comment_alert_variant"
@@ -49,8 +50,8 @@ export default defineComponent({
       const docSnapshot: any = await useGetDocById(route.params.id);
 
       if (!docSnapshot.exists()) router.push({ name: "home" });
-      else songInfo.value = docSnapshot.data();
 
+      songInfo.value = docSnapshot.data();
       commentsList.value = await getComment();
     });
 
