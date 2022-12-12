@@ -1,5 +1,5 @@
 <template>
-  <music-header :songInfo="songInfo" />
+  <music-header :songInfo="songInfo" @playMusic="playMusic" />
   <comments-form
     @addComment="addComment"
     @sortComments="sortComments"
@@ -16,6 +16,7 @@
 import { useRoute, useRouter } from "vue-router";
 import { defineComponent, onMounted, ref } from "vue";
 import type { DocumentData } from "firebase/firestore";
+import { usePlayerStore } from "@/stores/player";
 
 import MusicHeader from "@/components/Songs/MusicHeader.vue";
 import CommentsForm from "@/components/Songs/CommentsForm.vue";
@@ -46,6 +47,8 @@ export default defineComponent({
       "Please wait! Your comment is being submitted"
     );
 
+    const { newSong } = usePlayerStore();
+
     onMounted(async () => {
       const docSnapshot: any = await useGetDocById(route.params.id);
 
@@ -54,6 +57,8 @@ export default defineComponent({
       songInfo.value = docSnapshot.data();
       commentsList.value = await getComment();
     });
+
+    const playMusic = () => newSong(songInfo.value);
 
     const getComment = async () => await useGetComments(route.params.id);
     const addComment = async (event: any) => {
@@ -91,6 +96,7 @@ export default defineComponent({
 
     return {
       songInfo,
+      playMusic,
       addComment,
       sortComments,
       commentsList,

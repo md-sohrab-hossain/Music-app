@@ -9,6 +9,7 @@
       <!-- Play/Pause Button -->
       <button
         type="button"
+        @click="$emit('playMusic')"
         class="z-50 h-24 w-24 text-3xl bg-white text-black rounded-full focus:outline-none"
       >
         <i class="fas fa-play"></i>
@@ -26,5 +27,6 @@
 export default {
   name: "MusicHeader",
   props: ["songInfo"],
+  emits: ["playMusic"],
 };
 </script>
