@@ -49,7 +49,7 @@
 <script lang="ts">
 import { mapStores, mapWritableState } from "pinia";
 import useModalStore from "@/stores/modal";
-import useUserStore from "@/stores/user";
+import { useUserStore } from "@/stores/user";
 
 export default {
   name: "NavBar",

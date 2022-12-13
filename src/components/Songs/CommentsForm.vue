@@ -18,26 +18,7 @@
           {{ comment_alert_message }}
         </div>
 
-        <vee-form
-          v-if="userLoggedIn"
-          :validation-schema="schema"
-          @submit="$emit('addComment', $event)"
-        >
-          <vee-field
-            as="textarea"
-            name="comment"
-            class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition duration-500 focus:outline-none focus:border-black rounded mb-4"
-            placeholder="Your comment here..."
-          />
-          <ErrorMessage class="text-red-600" name="comment" />
-          <button
-            type="submit"
-            :disabled="comment_in_submission"
-            class="py-1.5 px-3 rounded text-white bg-green-600 block"
-          >
-            Submit
-          </button>
-        </vee-form>
+        <slot name="comments-form" v-if="userLoggedIn"></slot>
 
         <!-- Sort Comments -->
         <select
@@ -53,8 +34,7 @@
 </template>
 
 <script lang="ts">
-import useUserStore from "@/stores/user";
-import { ErrorMessage } from "vee-validate";
+import { useUserStore } from "@/stores/user";
 import { mapState } from "pinia";
 
 export default {
@@ -63,7 +43,6 @@ export default {
   props: [
     "commentsCount",
     "comment_show_alert",
-    "comment_in_submission",
     "comment_alert_variant",
     "comment_alert_message",
   ],
@@ -77,6 +56,5 @@ export default {
   computed: {
     ...mapState(useUserStore, ["userLoggedIn"]),
   },
-  components: { ErrorMessage },
 };
 </script>

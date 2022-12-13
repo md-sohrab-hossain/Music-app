@@ -3,7 +3,7 @@ import Home from "@/views/HomeView.vue";
 import About from "@/views/AboutView.vue";
 import Manage from "@/views/ManageView.vue";
 import Songs from "@/views/SongView.vue";
-import useUserStore from "@/stores/user";
+import { useUserStore } from "@/stores/user";
 /*
  * Resource: https://router.vuejs.org/
  * Api Reference: https://router.vuejs.org/api/#interfaces

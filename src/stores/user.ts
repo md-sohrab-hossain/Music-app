@@ -7,7 +7,7 @@ import {
   useCreateNewUser,
 } from "@/utility/firebaseUtility";
 
-export default defineStore("user", {
+export const useUserStore = defineStore("user", {
   state: () => ({
     userLoggedIn: false,
   }),

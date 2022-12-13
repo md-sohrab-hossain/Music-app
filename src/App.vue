@@ -10,7 +10,7 @@
 import NavBar from "@/components/NavBar.vue";
 import AuthModal from "@/components/AuthModal.vue";
 
-import useUserStore from "@/stores/user";
+import { useUserStore } from "@/stores/user";
 import { mapWritableState } from "pinia";
 import { auth } from "@/utility/firebaseConfig";
 

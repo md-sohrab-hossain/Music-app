@@ -5,10 +5,29 @@
     @sortComments="sortComments"
     :commentsCount="commentsCount"
     :comment_show_alert="comment_show_alert"
-    :comment_in_submission="comment_in_submission"
     :comment_alert_variant="comment_alert_variant"
     :comment_alert_message="comment_alert_message"
-  />
+  >
+    <template #comments-form>
+      <vee-form :validation-schema="schema" @submit="addComment">
+        <vee-field
+          as="textarea"
+          name="comment"
+          class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition duration-500 focus:outline-none focus:border-black rounded mb-4"
+          placeholder="Your comment here..."
+        />
+        <ErrorMessage class="text-red-600" name="comment" />
+        <button
+          type="submit"
+          :disabled="comment_in_submission"
+          class="py-1.5 px-3 rounded text-white bg-green-600 block"
+        >
+          Submit
+        </button>
+      </vee-form>
+    </template>
+  </comments-form>
+
   <comments-list :comments="commentsList" />
 </template>
 
@@ -17,11 +36,13 @@ import type { DocumentData } from "firebase/firestore";
 import { useRoute, useRouter } from "vue-router";
 import { defineComponent, onMounted, watch, ref } from "vue";
 import { usePlayerStore } from "@/stores/player";
+import { useUserStore } from "@/stores/user";
 
 import MusicHeader from "@/components/Songs/MusicHeader.vue";
 import CommentsForm from "@/components/Songs/CommentsForm.vue";
 import CommentsList from "@/components/Songs/CommentsList.vue";
 import { formatDate } from "@/utility/formatDate";
+import { ErrorMessage } from "vee-validate";
 
 import {
   useGetDocById,
@@ -36,6 +57,7 @@ export default defineComponent({
     MusicHeader,
     CommentsForm,
     CommentsList,
+    ErrorMessage,
   },
   setup() {
     const route: any = useRoute();
@@ -51,6 +73,7 @@ export default defineComponent({
     );
 
     const { playSound } = usePlayerStore();
+    const { userLoggedIn } = useUserStore();
 
     onMounted(async () => {
       const docSnapshot: any = await useGetDocById(route.params.id);
@@ -72,7 +95,7 @@ export default defineComponent({
     const playMusic = () => playSound(songInfo.value);
 
     const getComment = async () => await useGetComments(route.params.id);
-    const addComment = async (event: any) => {
+    const addComment = async (event: any, { resetForm }: any) => {
       comment_show_alert.value = true;
       comment_in_submission.value = true;
       comment_alert_variant.value = "bg-blue-500";
@@ -99,6 +122,8 @@ export default defineComponent({
           comment_show_alert.value = false;
         }, 1000);
       }
+
+      resetForm();
     };
 
     const sortComments = (event: any) => {
@@ -129,6 +154,10 @@ export default defineComponent({
       comment_in_submission,
       comment_alert_variant,
       comment_alert_message,
+      schema: {
+        comment: "required|min:3",
+      },
+      userLoggedIn,
     };
   },
 });
