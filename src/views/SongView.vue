@@ -3,7 +3,7 @@
   <comments-form
     @addComment="addComment"
     @sortComments="sortComments"
-    :comments="commentsList"
+    :comments="commentsCount"
     :comment_show_alert="comment_show_alert"
     :comment_in_submission="comment_in_submission"
     :comment_alert_variant="comment_alert_variant"
@@ -14,7 +14,7 @@
 
 <script lang="ts">
 import { useRoute, useRouter } from "vue-router";
-import { defineComponent, onMounted, ref } from "vue";
+import { defineComponent, onMounted, watch, ref } from "vue";
 import type { DocumentData } from "firebase/firestore";
 import { usePlayerStore } from "@/stores/player";
 
@@ -39,6 +39,7 @@ export default defineComponent({
     const route: any = useRoute();
     const router: any = useRouter();
     const songInfo = ref<DocumentData>([]);
+    const commentsCount = ref<number>(0);
     const commentsList = ref<DocumentData | undefined>([]);
     const comment_in_submission = ref<boolean>(false);
     const comment_show_alert = ref<boolean>(false);
@@ -57,6 +58,13 @@ export default defineComponent({
       songInfo.value = docSnapshot.data();
       commentsList.value = await getComment();
     });
+
+    watch(
+      () => commentsList.value,
+      (currentValue) => {
+        commentsCount.value = currentValue?.length | 0;
+      }
+    );
 
     const playMusic = () => newSong(songInfo.value);
 
@@ -100,6 +108,7 @@ export default defineComponent({
       addComment,
       sortComments,
       commentsList,
+      commentsCount,
       comment_show_alert,
       comment_in_submission,
       comment_alert_variant,
