@@ -40,7 +40,7 @@ import { usePlayerStore } from "@/stores/player";
 import MusicHeader from "@/components/Songs/MusicHeader.vue";
 import CommentsForm from "@/components/Songs/CommentsForm.vue";
 import CommentsList from "@/components/Songs/CommentsList.vue";
-import { formatDate } from "@/utility/formatDate";
+import { formatDate } from "@/utility/helper";
 import { ErrorMessage } from "vee-validate";
 
 import {

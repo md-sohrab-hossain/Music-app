@@ -1,7 +1,7 @@
 <template>
   <!-- Auth Modal -->
   <div
-    class="fixed inset-0 z-10 overflow-y-auto"
+    class="fixed inset-0 z-50 overflow-y-auto"
     id="modal"
     :class="hiddenClass"
   >
