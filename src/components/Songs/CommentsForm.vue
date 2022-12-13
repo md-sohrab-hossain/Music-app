@@ -4,7 +4,7 @@
     <div class="bg-white rounded border border-gray-200 relative flex flex-col">
       <div class="px-6 pt-6 pb-5 font-bold border-b border-gray-200">
         <!-- Comment Count -->
-        <span class="card-title">Comments ({{ comments }})</span>
+        <span class="card-title">Comments ({{ commentsCount }})</span>
         <i class="fa fa-comments float-right text-green-400 text-2xl"></i>
       </div>
       <div class="p-6">
@@ -58,7 +58,7 @@ export default {
   name: "CommentsForm",
   emits: ["addComment", "sortComments"],
   props: [
-    "comments",
+    "commentsCount",
     "comment_show_alert",
     "comment_in_submission",
     "comment_alert_variant",

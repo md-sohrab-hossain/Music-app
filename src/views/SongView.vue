@@ -3,7 +3,7 @@
   <comments-form
     @addComment="addComment"
     @sortComments="sortComments"
-    :comments="commentsCount"
+    :commentsCount="commentsCount"
     :comment_show_alert="comment_show_alert"
     :comment_in_submission="comment_in_submission"
     :comment_alert_variant="comment_alert_variant"
