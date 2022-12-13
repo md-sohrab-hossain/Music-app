@@ -1,7 +1,11 @@
 <template>
   <nav-bar />
   <!-- include router-view for routing -->
-  <router-view />
+  <router-view v-slot="{ Component }">
+    <transition name="fade" mode="out-in">
+      <component :is="Component"></component>
+    </transition>
+  </router-view>
   <!-- music player -->
   <media-player />
   <!-- modal -->
@@ -34,3 +38,19 @@ export default {
   },
 };
 </script>
+
+<style>
+.fade-enter-from {
+  opacity: 0;
+}
+
+.fade-enter-active {
+  transition: all 0.5s linear;
+  opacity: 0;
+}
+
+.fade-leave-to {
+  transition: all 0.5s linear;
+  opacity: 0;
+}
+</style>

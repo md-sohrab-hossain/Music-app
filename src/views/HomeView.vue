@@ -1,6 +1,8 @@
 <template>
-  <hero />
-  <play-list :songs="songsList" />
+  <main>
+    <hero />
+    <play-list :songs="songsList" />
+  </main>
 </template>
 
 <script lang="ts">

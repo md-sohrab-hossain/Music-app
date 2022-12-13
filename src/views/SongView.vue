@@ -1,34 +1,36 @@
 <template>
-  <music-header :songInfo="songInfo" @playMusic="playMusic" />
-  <comments-form
-    @addComment="addComment"
-    @sortComments="sortComments"
-    :commentsCount="commentsCount"
-    :comment_show_alert="comment_show_alert"
-    :comment_alert_variant="comment_alert_variant"
-    :comment_alert_message="comment_alert_message"
-  >
-    <template #comments-form>
-      <vee-form :validation-schema="schema" @submit="addComment">
-        <vee-field
-          as="textarea"
-          name="comment"
-          class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition duration-500 focus:outline-none focus:border-black rounded mb-4"
-          placeholder="Your comment here..."
-        />
-        <ErrorMessage class="text-red-600" name="comment" />
-        <button
-          type="submit"
-          :disabled="comment_in_submission"
-          class="py-1.5 px-3 rounded text-white bg-green-600 block"
-        >
-          Submit
-        </button>
-      </vee-form>
-    </template>
-  </comments-form>
+  <main>
+    <music-header :songInfo="songInfo" @playMusic="playMusic" />
+    <comments-form
+      @addComment="addComment"
+      @sortComments="sortComments"
+      :commentsCount="commentsCount"
+      :comment_show_alert="comment_show_alert"
+      :comment_alert_variant="comment_alert_variant"
+      :comment_alert_message="comment_alert_message"
+    >
+      <template #comments-form>
+        <vee-form :validation-schema="schema" @submit="addComment">
+          <vee-field
+            as="textarea"
+            name="comment"
+            class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition duration-500 focus:outline-none focus:border-black rounded mb-4"
+            placeholder="Your comment here..."
+          />
+          <ErrorMessage class="text-red-600" name="comment" />
+          <button
+            type="submit"
+            :disabled="comment_in_submission"
+            class="py-1.5 px-3 rounded text-white bg-green-600 block"
+          >
+            Submit
+          </button>
+        </vee-form>
+      </template>
+    </comments-form>
 
-  <comments-list :comments="commentsList" />
+    <comments-list :comments="commentsList" />
+  </main>
 </template>
 
 <script lang="ts">
