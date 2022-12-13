@@ -36,7 +36,6 @@ import type { DocumentData } from "firebase/firestore";
 import { useRoute, useRouter } from "vue-router";
 import { defineComponent, onMounted, watch, ref } from "vue";
 import { usePlayerStore } from "@/stores/player";
-import { useUserStore } from "@/stores/user";
 
 import MusicHeader from "@/components/Songs/MusicHeader.vue";
 import CommentsForm from "@/components/Songs/CommentsForm.vue";
@@ -73,7 +72,6 @@ export default defineComponent({
     );
 
     const { playSound } = usePlayerStore();
-    const { userLoggedIn } = useUserStore();
 
     onMounted(async () => {
       const docSnapshot: any = await useGetDocById(route.params.id);
@@ -157,7 +155,6 @@ export default defineComponent({
       schema: {
         comment: "required|min:3",
       },
-      userLoggedIn,
     };
   },
 });
