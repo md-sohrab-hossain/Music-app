@@ -32,13 +32,6 @@ type userInfo = {
   country: string;
 };
 
-//**------------ Create new User  ------------------- */
-export const useCreateNewUser = (data: userInfo, uid: string) => {
-  const dbRef = doc(database, "users", uid);
-  return setDoc(dbRef, data);
-};
-//**------------ Create new User  ------------------- */
-
 //**  ---------- Authentication User ----------------*//
 export const useRegisterUser = (email: string, password: string) => {
   return createUserWithEmailAndPassword(auth, email, password);
@@ -52,19 +45,19 @@ export const useSignOutUser = () => {
 };
 //**  ---------- Authentication User ----------------*//
 
+//**------------ Create new User  ------------------- *//
+export const useCreateNewUser = (data: userInfo, uid: string) => {
+  const dbRef = doc(database, "users", uid);
+  return setDoc(dbRef, data);
+};
+//**------------ Create new User  ------------------- *//
+
 //** ------------ Upload File to firebase Storage --------------------- *//
 export const uploadFile = (file: File, fileName: string) => {
   const media = storageRef(storage, `sounds/${fileName}`);
   return uploadBytesResumable(media, file);
 };
 //** ------------ Upload File to firebase Storage --------------------- *//
-
-//** ------------ Delete File from firebase Storage --------------------- *//
-export const deleteFile = async (fileName: string) => {
-  const media = storageRef(storage, `sounds/${fileName}`);
-  await deleteObject(media);
-};
-//** ------------ Delete File from firebase Storage --------------------- *//
 
 //**------------ Save File to the database  ------------------- */
 export const useSaveFile = async (data: any) => {
@@ -204,6 +197,13 @@ export const useUpdateSongs = (song: Object, docId: string) => {
   }
 };
 //**------------ Update songs to the database  ------------------- */
+
+//** ------------ Delete File from firebase Storage --------------------- *//
+export const deleteFile = async (fileName: string) => {
+  const media = storageRef(storage, `sounds/${fileName}`);
+  await deleteObject(media);
+};
+//** ------------ Delete File from firebase Storage --------------------- *//
 
 //** ------------ Delete File from firebase Database --------------------- *//
 export const useDeleteSong = async (docId: string) => {

@@ -13,14 +13,15 @@
 </template>
 
 <script lang="ts">
+import type { DocumentData } from "firebase/firestore";
 import { useRoute, useRouter } from "vue-router";
 import { defineComponent, onMounted, watch, ref } from "vue";
-import type { DocumentData } from "firebase/firestore";
 import { usePlayerStore } from "@/stores/player";
 
 import MusicHeader from "@/components/Songs/MusicHeader.vue";
 import CommentsForm from "@/components/Songs/CommentsForm.vue";
 import CommentsList from "@/components/Songs/CommentsList.vue";
+
 import {
   useGetDocById,
   useAddComment,
@@ -48,11 +49,10 @@ export default defineComponent({
       "Please wait! Your comment is being submitted"
     );
 
-    const { newSong } = usePlayerStore();
+    const { playSound } = usePlayerStore();
 
     onMounted(async () => {
       const docSnapshot: any = await useGetDocById(route.params.id);
-
       if (!docSnapshot.exists()) router.push({ name: "home" });
 
       songInfo.value = docSnapshot.data();
@@ -61,12 +61,14 @@ export default defineComponent({
 
     watch(
       () => commentsList.value,
-      (currentValue) => {
-        commentsCount.value = currentValue?.length | 0;
+      (currentValue, oldValue) => {
+        if (currentValue !== oldValue) {
+          commentsCount.value = currentValue?.length;
+        }
       }
     );
 
-    const playMusic = () => newSong(songInfo.value);
+    const playMusic = () => playSound(songInfo.value);
 
     const getComment = async () => await useGetComments(route.params.id);
     const addComment = async (event: any) => {
@@ -94,12 +96,25 @@ export default defineComponent({
 
         setTimeout(() => {
           comment_show_alert.value = false;
-        }, 2000);
+        }, 1000);
       }
     };
 
     const sortComments = (event: any) => {
-      console.log("comments -- ", event.target.value);
+      let sortComments = commentsList.value;
+
+      sortComments = sortComments?.sort((a: any, b: any) => {
+        const items1 = new Date(a.datePosted);
+        const items2 = new Date(b.datePosted);
+
+        if (event.target.value == "latest") {
+          return items1 > items2 ? -1 : items1 < items2 ? 1 : 0; // sort desc
+        } else {
+          return items1 < items2 ? -1 : items1 > items2 ? 1 : 0; // sort asc
+        }
+      });
+
+      if (sortComments?.length) commentsList.value = sortComments;
     };
 
     return {

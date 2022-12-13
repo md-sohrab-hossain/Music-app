@@ -5,7 +5,7 @@ import { defineStore } from "pinia";
 export const usePlayerStore = defineStore("player", () => {
   const current_song = ref({});
 
-  function newSong(song: any) {
+  function playSound(song: any) {
     current_song.value = song;
     const sound = new Howl({
       src: [song.url],
@@ -14,5 +14,5 @@ export const usePlayerStore = defineStore("player", () => {
     sound.play();
   }
 
-  return { current_song, newSong };
+  return { current_song, playSound };
 });
