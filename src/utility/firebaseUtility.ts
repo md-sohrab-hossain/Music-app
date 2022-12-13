@@ -115,11 +115,11 @@ export const useGetAllSongs = async (dataLimit: number) => {
 
     const songs = await getDocs(data);
     return songs.docs.map((doc) => {
-      const songs = {
+      const song = {
         ...doc.data(),
         docId: doc.id,
       };
-      return songs;
+      return song;
     });
   } catch (error) {
     console.log(error);
@@ -175,11 +175,11 @@ export const useGetComments = async (songId: string) => {
 
     const songs = await getDocs(data);
     return songs.docs.map((doc) => {
-      const songs = {
+      const song = {
         ...doc.data(),
         docId: doc.id,
       };
-      return songs;
+      return song;
     });
   } catch (error) {
     console.log(error);
