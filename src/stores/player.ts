@@ -1,18 +1,39 @@
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import { Howl } from "howler";
 import { defineStore } from "pinia";
 
 export const usePlayerStore = defineStore("player", () => {
+  //** --- state ---- *//
   const current_song = ref({});
+  const sound = ref();
+  //** --- state ---- *//
 
-  function playSound(song: any) {
+  //** --- Action ---- *//
+  function playAudio(song: any) {
     current_song.value = song;
-    const sound = new Howl({
+    sound.value = new Howl({
       src: [song.url],
       html5: true,
     });
-    sound.play();
+
+    sound.value.play();
   }
 
-  return { current_song, playSound };
+  function toggleAudio() {
+    if (!sound.value?.playing) return;
+    if (sound.value.playing()) {
+      sound.value.pause();
+    } else {
+      sound.value.play();
+    }
+  }
+  //** --- Action ---- *//
+
+  //** --- Getters ---- *//
+  const isPlaying = computed(() =>
+    sound.value?.playing ? sound.value.playing() : false
+  );
+  //** --- Getters ---- *//
+
+  return { current_song, playAudio, toggleAudio, isPlaying };
 });

@@ -1,7 +1,6 @@
 <template>
   <hero />
   <play-list :songs="songsList" />
-  <player />
 </template>
 
 <script lang="ts">
@@ -15,13 +14,11 @@ import type { DocumentData } from "firebase/firestore";
 
 import Hero from "@/components/Home/Hero.vue";
 import PlayList from "@/components/Home/PlayList.vue";
-import Player from "@/components/Home/MediaPlayer.vue";
 
 export default defineComponent({
   name: "HomePage",
   components: {
     Hero,
-    Player,
     PlayList,
   },
 

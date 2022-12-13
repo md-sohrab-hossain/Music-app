@@ -71,7 +71,7 @@ export default defineComponent({
       "Please wait! Your comment is being submitted"
     );
 
-    const { playSound } = usePlayerStore();
+    const { playAudio } = usePlayerStore();
 
     onMounted(async () => {
       const docSnapshot: any = await useGetDocById(route.params.id);
@@ -90,7 +90,7 @@ export default defineComponent({
       }
     );
 
-    const playMusic = () => playSound(songInfo.value);
+    const playMusic = () => playAudio(songInfo.value);
 
     const getComment = async () => await useGetComments(route.params.id);
     const addComment = async (event: any, { resetForm }: any) => {
