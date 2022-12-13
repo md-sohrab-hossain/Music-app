@@ -52,6 +52,19 @@ export const usePlayerStore = defineStore("player", () => {
       requestAnimationFrame(progress);
     }
   }
+
+  function updateSeek(event: any) {
+    if (!sound.value?.playing) return;
+
+    const { x, width } = event.currentTarget.getBoundingClientRect();
+    // Document = 2000, Timeline = 1000, clientX = 1000, Distance = 500
+    const clickX = event.clientX - x;
+    const percentage = clickX / width;
+    const seconds = sound.value?.duration() * percentage;
+
+    sound.value?.seek(seconds);
+    sound.value?.once("seek", progress);
+  }
   //** --- Action ---- *//
 
   //** --- Getters ---- *//
@@ -66,6 +79,7 @@ export const usePlayerStore = defineStore("player", () => {
     isPlaying,
     playAudio,
     toggleAudio,
+    updateSeek,
     current_song,
     playerProgress,
   };

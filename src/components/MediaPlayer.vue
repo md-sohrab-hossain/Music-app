@@ -18,7 +18,10 @@
       <!-- Current Position -->
       <div class="player-currenttime">{{ seek }}</div>
       <!-- Scrub Container  -->
-      <div class="w-full h-2 rounded bg-gray-200 relative cursor-pointer">
+      <div
+        @click.prevent="updateSeek"
+        class="w-full h-2 rounded bg-gray-200 relative cursor-pointer"
+      >
         <!-- Player Ball -->
         <span
           class="absolute -top-2.5 -ml-2.5 text-gray-800 text-lg"
@@ -54,12 +57,13 @@ export default defineComponent({
     const store = usePlayerStore();
     const { current_song, isPlaying, seek, duration, playerProgress } =
       storeToRefs(store);
-    const { toggleAudio } = store;
+    const { toggleAudio, updateSeek } = store;
 
     return {
       seek,
       duration,
       isPlaying,
+      updateSeek,
       toggleAudio,
       current_song,
       playerProgress,
