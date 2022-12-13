@@ -21,6 +21,7 @@ import { usePlayerStore } from "@/stores/player";
 import MusicHeader from "@/components/Songs/MusicHeader.vue";
 import CommentsForm from "@/components/Songs/CommentsForm.vue";
 import CommentsList from "@/components/Songs/CommentsList.vue";
+import { formatDate } from "@/utility/formatDate";
 
 import {
   useGetDocById,
@@ -80,7 +81,7 @@ export default defineComponent({
 
       const comment = {
         content: event.comment,
-        datePosted: new Date().toString(),
+        datePosted: formatDate(new Date()),
         sid: route.params.id,
         name: auth.currentUser?.displayName,
         uid: auth.currentUser?.uid,
@@ -104,8 +105,8 @@ export default defineComponent({
       let sortComments = commentsList.value;
 
       sortComments = sortComments?.sort((a: any, b: any) => {
-        const items1 = new Date(a.datePosted);
-        const items2 = new Date(b.datePosted);
+        const items1 = formatDate(a.datePosted);
+        const items2 = formatDate(b.datePosted);
 
         if (event.target.value == "latest") {
           return items1 > items2 ? -1 : items1 < items2 ? 1 : 0; // sort desc
