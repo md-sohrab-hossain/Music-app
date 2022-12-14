@@ -11,6 +11,7 @@ import {
   useGetDocById,
   useGetAllSongs,
   useGetPaginatedSongs,
+  useGetComments,
 } from "@/utility/firebaseUtility";
 import type { DocumentData } from "firebase/firestore";
 
@@ -65,9 +66,11 @@ export default defineComponent({
         snapshots = await useGetAllSongs(maxPerPage);
       }
 
-      snapshots?.forEach((doc: any) => {
+      snapshots?.forEach(async (doc: any) => {
+        const comment_count = await useGetComments(doc.docId);
         songsList.value.push({
           ...doc,
+          comment_count: comment_count?.length,
         });
       });
 

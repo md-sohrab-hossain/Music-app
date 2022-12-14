@@ -5,6 +5,8 @@ import Manage from "@/views/ManageView.vue";
 import Songs from "@/views/SongView.vue";
 import { useUserStore } from "@/stores/user";
 /*
+ * Vue Router Overview: https://vuejsdevelopers.com/2020/01/27/closer-look-at-vue-router/#the-difference-between-history-mode-and-hash-mode
+ * VueJs contain both history and hash router: https://itecnote.com/tecnote/vue-js-both-history-and-hash-router/
  * Resource: https://router.vuejs.org/
  * Api Reference: https://router.vuejs.org/api/#interfaces
  * Protected Route: https://router.vuejs.org/guide/advanced/navigation-guards.html#global-before-guards
@@ -51,6 +53,13 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   if (!to.meta.requiresAuth) {
     next();
+    return;
+  }
+
+  // Remove Hash from url
+  if (to.fullPath.substring(0, 2) === "/#") {
+    const path = to.fullPath.substring(2);
+    next(path);
     return;
   }
 
