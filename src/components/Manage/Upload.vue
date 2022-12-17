@@ -25,6 +25,7 @@
 
       <input
         type="file"
+        class="text-ellipsis overflow-hidden"
         multiple
         @change="
           is_dragover = false;
