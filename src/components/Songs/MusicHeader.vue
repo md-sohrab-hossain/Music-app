@@ -2,7 +2,8 @@
   <!-- Music Header -->
   <section class="w-full mb-8 py-14 text-center text-white relative">
     <div
-      class="absolute inset-0 w-full h-full box-border bg-contain music-bg"
+      class="absolute inset-0 w-full h-full box-border bg-contain"
+      :class="[isPlaying ? 'music-bg' : '']"
       style="background-image: url(/assets/img/header-12.png)"
     ></div>
     <div class="container -mt-8 mx-auto flex items-center">
@@ -28,9 +29,22 @@
 </template>
 
 <script lang="ts">
-export default {
+import { usePlayerStore } from "@/stores/player";
+import { defineComponent } from "vue";
+import { storeToRefs } from "pinia";
+
+export default defineComponent({
   name: "MusicHeader",
   props: ["songInfo"],
   emits: ["playMusic"],
-};
+
+  setup() {
+    const store = usePlayerStore();
+    const { isPlaying } = storeToRefs(store);
+
+    return {
+      isPlaying,
+    };
+  },
+});
 </script>
