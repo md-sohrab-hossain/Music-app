@@ -68,10 +68,16 @@ export default defineComponent({
 
       snapshots?.forEach(async (doc: any) => {
         const comment_count = await useGetComments(doc.docId);
-        songsList.value.push({
-          ...doc,
-          comment_count: comment_count?.length,
-        });
+
+        // Push unique value into array
+        if (
+          songsList.value.findIndex((item: any) => item.docId == doc.doc) == -1
+        ) {
+          songsList.value.push({
+            ...doc,
+            comment_count: comment_count?.length,
+          });
+        }
       });
 
       pendingRequest.value = false;
