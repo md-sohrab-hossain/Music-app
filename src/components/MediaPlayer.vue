@@ -1,11 +1,14 @@
 <template>
   <!-- Player -->
-  <div class="fixed bottom-0 left-0 bg-white px-4 py-2 w-full">
+  <div class="fixed bottom-0 left-0 bg-gray-900 px-4 py-2 w-full">
     <!-- Track Info -->
     <div class="text-center" v-if="current_song.modified_name">
-      <span class="song-title font-bold">{{ current_song.modified_name }}</span>
-      by
-      <span class="song-artist">{{ current_song.display_name }}</span>
+      <span class="song-title font-bold text-white">{{
+        current_song.modified_name
+      }}</span>
+      <span class="song-artist text-white"
+        >{{ " " }}by {{ current_song.display_name }}</span
+      >
     </div>
     <div class="flex flex-nowrap gap-4 items-center">
       <!-- Play/Pause Button -->
@@ -16,7 +19,7 @@
         ></i>
       </button>
       <!-- Current Position -->
-      <div class="player-currenttime">{{ seek }}</div>
+      <div class="player-currenttime text-white">{{ seek }}</div>
       <!-- Scrub Container  -->
       <div
         @click.prevent="updateSeek"
@@ -24,7 +27,7 @@
       >
         <!-- Player Ball -->
         <span
-          class="absolute -top-2.5 -ml-2.5 text-gray-800 text-lg"
+          class="absolute -top-2.5 -ml-2.5 text-blue-400 text-lg"
           :style="{
             left: playerProgress,
           }"
@@ -40,7 +43,7 @@
         ></span>
       </div>
       <!-- Duration -->
-      <div class="player-duration">{{ duration }}</div>
+      <div class="player-duration text-white">{{ duration }}</div>
     </div>
   </div>
 </template>
