@@ -1,4 +1,4 @@
-import { Howl } from "howler";
+import { Howl, Howler } from "howler";
 import { computed, ref } from "vue";
 import { defineStore } from "pinia";
 import { formatTime } from "@/utility/helper";
@@ -7,6 +7,7 @@ import type { DocumentData } from "firebase/firestore";
 export const usePlayerStore = defineStore("player", () => {
   //** --- state ---- *//
   const sound = ref();
+  const volume = ref<string>("30");
   const current_song = ref<DocumentData>({});
   const seek = ref<string | number>("00:00");
   const duration = ref<string | number>("00:00");
@@ -23,7 +24,6 @@ export const usePlayerStore = defineStore("player", () => {
       src: [song.url],
       html5: true,
       loop: false,
-      volume: 0.3,
       onplay: () => {
         requestAnimationFrame(progress);
       },
@@ -39,6 +39,12 @@ export const usePlayerStore = defineStore("player", () => {
     } else {
       sound.value.play();
     }
+  }
+
+  function updateAudioVolume(volume: any) {
+    const sound = volume.target.value;
+    volume.value = String(sound);
+    Howler.volume(sound / 100);
   }
 
   function progress() {
@@ -75,6 +81,7 @@ export const usePlayerStore = defineStore("player", () => {
 
   return {
     seek,
+    volume,
     duration,
     isPlaying,
     playAudio,
@@ -82,5 +89,6 @@ export const usePlayerStore = defineStore("player", () => {
     updateSeek,
     current_song,
     playerProgress,
+    updateAudioVolume,
   };
 });

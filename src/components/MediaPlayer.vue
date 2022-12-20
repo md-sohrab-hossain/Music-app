@@ -10,6 +10,22 @@
         >{{ " " }}by {{ current_song.display_name }}</span
       >
     </div>
+
+    <!-- control volume -->
+    <div class="w-80 h-8 flex flex-row items-center">
+      <i class="fa fa-volume-down text-gray-500 mr-2"></i>
+      <input
+        class="h-1 w-48 form-range accent-green-300 bg-gray-300 rounded-2xl cursor-pointer"
+        type="range"
+        min="0"
+        max="100"
+        :value="volume"
+        @input.prevent="updateAudioVolume"
+        @change.prevent="updateAudioVolume"
+      />
+      <i class="fa fa-volume-up text-gray-500 ml-2"></i>
+    </div>
+
     <div class="flex flex-nowrap gap-4 items-center">
       <!-- Play/Pause Button -->
       <button type="button" @click.prevent="toggleAudio">
@@ -58,18 +74,20 @@ export default defineComponent({
 
   setup() {
     const store = usePlayerStore();
-    const { current_song, isPlaying, seek, duration, playerProgress } =
+    const { volume, current_song, isPlaying, seek, duration, playerProgress } =
       storeToRefs(store);
-    const { toggleAudio, updateSeek } = store;
+    const { toggleAudio, updateSeek, updateAudioVolume } = store;
 
     return {
       seek,
+      volume,
       duration,
       isPlaying,
       updateSeek,
       toggleAudio,
       current_song,
       playerProgress,
+      updateAudioVolume,
     };
   },
 });
