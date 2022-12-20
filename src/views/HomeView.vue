@@ -31,8 +31,9 @@ export default defineComponent({
     const maxPerPage: number = 5;
 
     onMounted(() => {
-      getSongs();
+      songsList.value = [];
       window.addEventListener("scroll", handleScroll);
+      getSongs();
     });
 
     onBeforeUnmount(() => {
@@ -68,16 +69,10 @@ export default defineComponent({
 
       snapshots?.forEach(async (doc: any) => {
         const comment_count = await useGetComments(doc.docId);
-
-        // Push unique value into array
-        if (
-          songsList.value.findIndex((item: any) => item.docId == doc.doc) == -1
-        ) {
-          songsList.value.push({
-            ...doc,
-            comment_count: comment_count?.length,
-          });
-        }
+        songsList.value.push({
+          ...doc,
+          comment_count: comment_count?.length,
+        });
       });
 
       pendingRequest.value = false;
