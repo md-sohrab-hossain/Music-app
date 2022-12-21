@@ -19,7 +19,7 @@
           </li>
 
           <!-- Navigation Links -->
-          <li v-if="!userStore.userLoggedIn">
+          <li v-if="!userLoggedIn">
             <a
               class="px-2 text-white"
               href="#"
@@ -47,23 +47,34 @@
 </template>
 
 <script lang="ts">
-import { mapStores, mapWritableState } from "pinia";
+import { defineComponent } from "vue";
 import useModalStore from "@/stores/modal";
 import { useUserStore } from "@/stores/user";
+import { useRoute, useRouter } from "vue-router";
+import { storeToRefs } from "pinia";
 
-export default {
+export default defineComponent({
   name: "NavBar",
-  computed: {
-    ...mapStores(useModalStore, useUserStore),
-    ...mapWritableState(useModalStore, ["isOpen"]),
+
+  setup() {
+    const route: any = useRoute();
+    const router: any = useRouter();
+    const userStore = useUserStore();
+    const modalStore = useModalStore();
+
+    const { signOut } = userStore;
+    const { userLoggedIn } = storeToRefs(userStore);
+    const { isOpen } = storeToRefs(modalStore);
+
+    if (route.meta.requiresAuth) {
+      router.push({ name: "home" });
+    }
+
+    return {
+      isOpen,
+      signOut,
+      userLoggedIn,
+    };
   },
-  methods: {
-    signOut() {
-      this.userStore.signOut();
-      if (this.$route.meta.requiresAuth) {
-        this.$router.push({ name: "home" });
-      }
-    },
-  },
-};
+});
 </script>
