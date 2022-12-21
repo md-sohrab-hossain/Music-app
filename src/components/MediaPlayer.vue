@@ -15,11 +15,10 @@
     <div class="w-80 h-8 flex flex-row items-center">
       <i class="fa fa-volume-down text-gray-500 mr-2"></i>
       <input
-        class="h-1 w-48 form-range accent-green-300 bg-gray-300 rounded-2xl cursor-pointer"
+        class="h-1 w-48 form-range accent-blue-400 bg-gray-300 rounded-2xl cursor-pointer"
         type="range"
         min="0"
         max="100"
-        :value="volume"
         @input.prevent="updateAudioVolume"
         @change.prevent="updateAudioVolume"
       />
