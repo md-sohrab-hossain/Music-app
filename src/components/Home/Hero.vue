@@ -9,11 +9,13 @@
     <div class="container mx-auto">
       <div class="text-white main-header-content">
         <h1
-          class="animate__animated animate__jackInTheBox mb-5 text-5xl font-bold font-serif text-cyan-400 cursor-default"
+          class="animate__animated animate__jackInTheBox italic mb-5 text-5xl font-bold font-serif text-cyan-400 cursor-default"
         >
-          Listen to Great Music!
+          Listen To Music Together!
         </h1>
-        <p class="w-full mx-auto md:w-8/12 text-lime-400 cursor-default">
+        <p
+          class="w-full mx-auto md:w-8/12 text-sm italic text-lime-400 cursor-default"
+        >
           The perfect music gift from one of the most trusted names in
           continuing education. Learn how to better appreciate music in this
           guide that will unlock the knowledge you need to understand “the most

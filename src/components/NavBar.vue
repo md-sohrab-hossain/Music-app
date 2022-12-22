@@ -8,7 +8,7 @@
         exact-active-class="no-active"
         class="mr-4 text-2xl font-bold text-white uppercase"
         href="#"
-        >Music</router-link
+        >music</router-link
       >
 
       <div class="flex items-center flex-grow">
