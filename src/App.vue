@@ -1,17 +1,23 @@
 <template>
+  <nav-bar />
   <error-boundary>
-    <nav-bar />
     <!-- include router-view for routing -->
     <router-view v-slot="{ Component }">
       <transition name="fade" mode="out-in">
         <component :is="Component"></component>
       </transition>
     </router-view>
-    <!-- music player -->
-    <media-player v-show="isPlaying || isPaused" />
-    <!-- modal -->
-    <auth-modal />
   </error-boundary>
+
+  <!-- music player -->
+  <media-player
+    :class="[
+      isSongPlaying ? 'translate-y-0 ease-in duration-700' : 'translate-y-20',
+      isSongEnd ? 'translate-y-20 ease-in duration-700' : '',
+    ]"
+  />
+  <!-- modal -->
+  <auth-modal />
 </template>
 
 <script lang="ts">
@@ -45,11 +51,11 @@ export default defineComponent({
   },
   setup() {
     const store = usePlayerStore();
-    const { isPlaying, isPaused } = storeToRefs(store);
+    const { isSongPlaying, isSongEnd } = storeToRefs(store);
 
     return {
-      isPaused,
-      isPlaying,
+      isSongPlaying,
+      isSongEnd,
     };
   },
 });

@@ -35,7 +35,7 @@
           </div>
         </li>
 
-        <li v-if="!songs.length" class="p-3 text-center text-rose-300">
+        <li v-if="!songs.length" class="p-3 text-center text-amber-300">
           Songs List Is Empty..!
         </li>
 

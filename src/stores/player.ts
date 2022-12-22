@@ -12,6 +12,8 @@ export const usePlayerStore = defineStore("player", () => {
   const seek = ref<string | number>("00:00");
   const duration = ref<string | number>("00:00");
   const playerProgress = ref<string>("0%");
+  const isSongPlaying = ref<boolean>(false);
+  const isSongEnd = ref<boolean>(false);
   //** --- state ---- *//
 
   //** --- Action ---- *//
@@ -26,6 +28,9 @@ export const usePlayerStore = defineStore("player", () => {
       loop: false,
       onplay: () => {
         requestAnimationFrame(progress);
+      },
+      onend: () => {
+        isSongEnd.value = true;
       },
     });
 
@@ -55,6 +60,8 @@ export const usePlayerStore = defineStore("player", () => {
     }%`;
 
     if (sound.value?.playing()) {
+      isSongEnd.value = false;
+      isSongPlaying.value = true;
       requestAnimationFrame(progress);
     }
   }
@@ -74,7 +81,7 @@ export const usePlayerStore = defineStore("player", () => {
   //** --- Action ---- *//
 
   //** --- Getters ---- *//
-  const isPaused = computed(() => (sound.value?.pause ? true : false));
+
   const isPlaying = computed(() =>
     sound.value?.playing ? sound.value.playing() : false
   );
@@ -84,8 +91,9 @@ export const usePlayerStore = defineStore("player", () => {
     seek,
     volume,
     duration,
-    isPaused,
+    isSongPlaying,
     isPlaying,
+    isSongEnd,
     playAudio,
     toggleAudio,
     updateSeek,

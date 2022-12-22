@@ -52,7 +52,7 @@ export default defineComponent({
         Math.round(scrollTop) + innerHeight === offsetHeight;
 
       if (bottomOfWindow) {
-        setTimeout(() => getSongs(), 500);
+        setTimeout(() => getSongs(), 1000);
       }
     };
 
