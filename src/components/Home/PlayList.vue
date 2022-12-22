@@ -40,7 +40,7 @@
         </li>
 
         <li v-else-if="isLoading" class="p-3 text-center text-orange-600">
-          Loading...
+          <p class="animate__animated animate__tada">Loading...</p>
         </li>
       </ol>
       <!-------- end Playlist ------->
@@ -50,6 +50,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import "animate.css";
 
 export default defineComponent({
   name: "PlayList",

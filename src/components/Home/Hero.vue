@@ -8,7 +8,9 @@
 
     <div class="container mx-auto">
       <div class="text-white main-header-content">
-        <h1 class="mb-5 text-5xl font-bold text-cyan-400 cursor-default">
+        <h1
+          class="animate__animated animate__jackInTheBox mb-5 text-5xl font-bold font-serif text-cyan-400 cursor-default"
+        >
           Listen to Great Music!
         </h1>
         <p class="w-full mx-auto md:w-8/12 text-lime-400 cursor-default">
@@ -29,6 +31,7 @@
 </template>
 
 <script lang="ts">
+import "animate.css";
 export default {
   name: "HeroComponent",
 };
