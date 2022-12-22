@@ -81,7 +81,6 @@ export const usePlayerStore = defineStore("player", () => {
   //** --- Action ---- *//
 
   //** --- Getters ---- *//
-
   const isPlaying = computed(() =>
     sound.value?.playing ? sound.value.playing() : false
   );
