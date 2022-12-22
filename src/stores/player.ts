@@ -74,6 +74,7 @@ export const usePlayerStore = defineStore("player", () => {
   //** --- Action ---- *//
 
   //** --- Getters ---- *//
+  const isPaused = computed(() => (sound.value?.pause ? true : false));
   const isPlaying = computed(() =>
     sound.value?.playing ? sound.value.playing() : false
   );
@@ -83,6 +84,7 @@ export const usePlayerStore = defineStore("player", () => {
     seek,
     volume,
     duration,
+    isPaused,
     isPlaying,
     playAudio,
     toggleAudio,

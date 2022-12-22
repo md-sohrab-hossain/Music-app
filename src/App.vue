@@ -8,7 +8,7 @@
       </transition>
     </router-view>
     <!-- music player -->
-    <media-player />
+    <media-player v-show="isPlaying || isPaused" />
     <!-- modal -->
     <auth-modal />
   </error-boundary>
@@ -23,7 +23,8 @@ import MediaPlayer from "@/components/MediaPlayer.vue";
 import ErrorBoundary from "@/components/ErrorBoundary.vue";
 
 import { useUserStore } from "@/stores/user";
-import { mapWritableState } from "pinia";
+import { usePlayerStore } from "@/stores/player";
+import { mapWritableState, storeToRefs } from "pinia";
 import { auth } from "@/utility/firebaseConfig";
 
 export default defineComponent({
@@ -41,6 +42,15 @@ export default defineComponent({
     if (auth.currentUser) {
       this.userLoggedIn = true;
     }
+  },
+  setup() {
+    const store = usePlayerStore();
+    const { isPlaying, isPaused } = storeToRefs(store);
+
+    return {
+      isPaused,
+      isPlaying,
+    };
   },
 });
 </script>
