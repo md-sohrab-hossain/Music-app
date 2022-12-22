@@ -10,6 +10,7 @@ import {
   deleteDoc,
   collection,
   startAfter,
+  getCountFromServer,
   type DocumentData,
   getDoc,
 } from "firebase/firestore";
@@ -103,6 +104,18 @@ export const useGetSongList = async () => {
   }
 };
 //**------------ Get song list from database for current User  ------------------- */
+
+//**------------ Get song list length from database for current User  ------------------- */
+export const useGetSongListLength = async () => {
+  try {
+    const data = query(collection(database, "songs"));
+    const snapshot = await getCountFromServer(data);
+    return snapshot.data().count;
+  } catch (error) {
+    console.log(error);
+  }
+};
+//**------------ Get song list length from database for current User  ------------------- */
 
 //**------------ Get All song list from database  ------------------- */
 export const useGetAllSongs = async (dataLimit: number) => {

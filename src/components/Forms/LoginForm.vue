@@ -42,10 +42,11 @@
 </template>
 
 <script lang="ts">
+import { defineComponent } from "vue";
 import { mapActions } from "pinia";
 import { useUserStore } from "@/stores/user";
 
-export default {
+export default defineComponent({
   name: "LoginForm",
   data() {
     return {
@@ -81,5 +82,5 @@ export default {
       window.location.reload();
     },
   },
-};
+});
 </script>

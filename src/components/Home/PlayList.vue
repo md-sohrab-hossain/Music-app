@@ -5,43 +5,54 @@
       <div class="px-6 pt-6 pb-5 font-bold border-b border-gray-200">
         <span class="card-title">Songs</span>
         <!-- Icon -->
-        <i class="fa fa-headphones-alt float-right text-green-400 text-xl"></i>
+        <i class="fa fa-headphones-alt float-right text-indigo-400 text-xl"></i>
       </div>
+
       <!-- Playlist -->
       <ol id="playlist">
-        <li
-          v-for="song in songs"
-          :key="song.docId"
-          class="flex justify-between items-center p-3 pl-6 cursor-pointer transition duration-300 hover:bg-gray-50"
-        >
-          <div>
+        <li v-for="song in songs" :key="song.docId">
+          <div
+            class="flex justify-between items-center gap-4 p-3 pl-6 cursor-pointer transition duration-300 hover:bg-gray-50"
+          >
+            <div>
+              <router-link
+                :to="{ name: 'song', params: { id: song.docId } }"
+                class="font-bold block text-gray-600"
+                >{{ song.modified_name }}</router-link
+              >
+              <span class="text-gray-500 text-sm">{{ song.display_name }}</span>
+            </div>
+
             <router-link
               :to="{ name: 'song', params: { id: song.docId } }"
-              class="font-bold block text-gray-600"
-              >{{ song.modified_name }}</router-link
+              class="text-gray-600 text-lg w-12"
             >
-            <span class="text-gray-500 text-sm">{{ song.display_name }}</span>
+              <span class="comments">
+                <i class="fa fa-comments text-gray-600"></i>
+                {{ song.comment_count }}
+              </span>
+            </router-link>
           </div>
+        </li>
 
-          <router-link
-            :to="{ name: 'song', params: { id: song.docId } }"
-            class="text-gray-600 text-lg"
-          >
-            <span class="comments">
-              <i class="fa fa-comments text-gray-600"></i>
-              {{ song.comment_count }}
-            </span>
-          </router-link>
+        <li v-if="!songs.length" class="p-3 text-center text-rose-300">
+          Songs List Is Empty..!
+        </li>
+
+        <li v-else-if="isLoading" class="p-3 text-center text-orange-600">
+          Loading...
         </li>
       </ol>
-      <!-- .. end Playlist -->
+      <!-------- end Playlist ------->
     </div>
   </section>
 </template>
 
 <script lang="ts">
-export default {
+import { defineComponent } from "vue";
+
+export default defineComponent({
   name: "PlayList",
-  props: ["songs"],
-};
+  props: ["songs", "isLoading"],
+});
 </script>

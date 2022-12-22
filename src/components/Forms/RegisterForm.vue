@@ -107,10 +107,11 @@
 </template>
 
 <script lang="ts">
+import { defineComponent } from "vue";
 import { mapActions } from "pinia";
 import { useUserStore } from "@/stores/user";
 
-export default {
+export default defineComponent({
   name: "RegisterForm",
   data() {
     return {
@@ -157,5 +158,5 @@ export default {
       window.location.reload();
     },
   },
-};
+});
 </script>

@@ -15,6 +15,8 @@
 </template>
 
 <script lang="ts">
+import { defineComponent } from "vue";
+
 import NavBar from "@/components/NavBar.vue";
 import AuthModal from "@/components/AuthModal.vue";
 import MediaPlayer from "@/components/MediaPlayer.vue";
@@ -24,7 +26,7 @@ import { useUserStore } from "@/stores/user";
 import { mapWritableState } from "pinia";
 import { auth } from "@/utility/firebaseConfig";
 
-export default {
+export default defineComponent({
   name: "App",
   components: {
     NavBar,
@@ -40,7 +42,7 @@ export default {
       this.userLoggedIn = true;
     }
   },
-};
+});
 </script>
 
 <style>

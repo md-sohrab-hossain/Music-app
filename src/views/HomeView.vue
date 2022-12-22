@@ -1,7 +1,7 @@
 <template>
   <main>
     <hero />
-    <play-list :songs="songsList" />
+    <play-list :songs="songsList" :isLoading="isLoading" />
   </main>
 </template>
 
@@ -10,6 +10,7 @@ import { defineComponent, onMounted, onBeforeUnmount, ref } from "vue";
 import {
   useGetDocById,
   useGetAllSongs,
+  useGetSongListLength,
   useGetPaginatedSongs,
   useGetComments,
 } from "@/utility/firebaseUtility";
@@ -26,12 +27,14 @@ export default defineComponent({
   },
 
   setup() {
-    const songsList = ref<DocumentData>([]);
-    const pendingRequest = ref<boolean>(false);
     const maxPerPage: number = 5;
+    const isLoading = ref<boolean>(false);
+    const songsList = ref<DocumentData>([]);
+    const songsListLength = ref<number>(0);
 
-    onMounted(() => {
+    onMounted(async () => {
       songsList.value = [];
+      songsListLength.value = (await useGetSongListLength()) || 0;
       window.addEventListener("scroll", handleScroll);
       getSongs();
     });
@@ -49,22 +52,24 @@ export default defineComponent({
         Math.round(scrollTop) + innerHeight === offsetHeight;
 
       if (bottomOfWindow) {
-        getSongs();
+        setTimeout(() => getSongs(), 500);
       }
     };
 
     // Pagination
     const getSongs = async () => {
-      if (pendingRequest.value) return;
-      pendingRequest.value = true;
+      if (isLoading.value) return;
+      isLoading.value = true;
 
       let snapshots = null;
-      if (songsList.value.length) {
-        const docId: string = songsList.value[songsList.value.length - 1].docId;
-        const lastDoc: any = await useGetDocById(docId);
-        snapshots = await useGetPaginatedSongs(maxPerPage, lastDoc);
-      } else {
-        snapshots = await useGetAllSongs(maxPerPage);
+      if (songsList.value.length < songsListLength.value) {
+        if (songsList.value.length) {
+          const docId = songsList.value[songsList.value.length - 1].docId;
+          const lastDoc: any = await useGetDocById(docId);
+          snapshots = await useGetPaginatedSongs(maxPerPage, lastDoc);
+        } else {
+          snapshots = await useGetAllSongs(maxPerPage);
+        }
       }
 
       snapshots?.forEach(async (doc: any) => {
@@ -75,11 +80,12 @@ export default defineComponent({
         });
       });
 
-      pendingRequest.value = false;
+      isLoading.value = false;
     };
 
     return {
       songsList,
+      isLoading,
     };
   },
 });
