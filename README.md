@@ -1,4 +1,4 @@
-## Live Project Url: [mp3 player](https://mp3-player-sohrab.vercel.app/)
+## Live Project Url: [mp3 player](https://zzmp3player.vercel.app/)
 # vue-project
 
 This template should help get you started developing with Vue 3 in Vite.
