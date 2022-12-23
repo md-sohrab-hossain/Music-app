@@ -1,26 +1,26 @@
 <template>
   <!-- Music Header -->
-  <section class="w-full mb-8 py-14 text-center text-white relative">
+  <section class="relative w-full mb-8 text-center text-white py-14">
     <div
-      class="absolute inset-0 w-full h-full box-border bg-contain bg-repeat-x"
+      class="box-border absolute inset-0 w-full h-full bg-repeat-x bg-contain"
       :class="{ 'music-bg': isPlaying }"
       style="background-image: url(/assets/img/header-12.png)"
     ></div>
-    <div class="container -mt-8 mx-auto flex items-center">
+    <div class="container flex items-center mx-auto -mt-8">
       <!-- Play/Pause Button -->
       <div
-        class="playButton ml-2 md:ml-0"
+        class="ml-2 playButton md:ml-0"
         :class="{ 'button-active': isPlaying }"
         @click="$emit('playMusic')"
       >
         <i class="fas fa-play"></i>
       </div>
-      <div class="z-50 text-left ml-8 -mt-12 md:-mt-0">
+      <div class="z-50 ml-8 -mt-12 text-left md:-mt-0">
         <!-- Song Info -->
-        <div class="text-1xl md:text-3xl font-bold text-green-400">
+        <div class="text-xl font-bold text-green-400 md:text-2xl">
           {{ songInfo?.modified_name }}
         </div>
-        <div class="text-red-600 font-bold capitalize">
+        <div class="font-bold text-red-600 capitalize">
           {{ songInfo?.genre }}
         </div>
       </div>
@@ -54,7 +54,7 @@ export default defineComponent({
   display: grid;
   place-items: center;
   cursor: pointer;
-  padding: 3rem;
+  padding: 2.5rem;
   z-index: 999999;
   background: #efeeee;
   border-radius: 50%;
@@ -66,7 +66,7 @@ export default defineComponent({
 .playButton .fas {
   display: grid;
   place-items: center;
-  font-size: 3rem;
+  font-size: 2.5rem;
   color: gray;
 }
 .playButton:active {

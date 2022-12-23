@@ -1,9 +1,9 @@
 <template>
   <main>
-    <div class="about -mt-40 flex flex-col justify-center items-center">
+    <div class="flex flex-col items-center justify-center -mt-40 about">
       <img
         src="/assets/img/sohrab.jpg"
-        class="md:w-56 md:h-56 mb-2 w-36 h-36 object-fill rounded-full -rotate-3"
+        class="object-fill mt-6 mb-2 rounded-lg md:w-64 md:h-64 w-36 h-36"
         alt="authors"
       />
 
