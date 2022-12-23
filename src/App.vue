@@ -12,8 +12,8 @@
   <!-- music player -->
   <media-player
     :class="[
-      isSongPlaying ? 'translate-y-0 ease-in duration-700' : 'translate-y-20',
-      isSongEnd ? 'translate-y-20 ease-in duration-700' : '',
+      isSongPlaying ? 'translate-y-0 ease-in duration-700' : 'translate-y-40',
+      isSongEnd ? 'translate-y-40 ease-in duration-700' : '',
     ]"
   />
   <!-- modal -->

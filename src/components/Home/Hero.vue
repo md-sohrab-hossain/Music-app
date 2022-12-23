@@ -25,7 +25,7 @@
         <p
           class="visible w-full mx-auto -mt-12 text-sm italic cursor-default md:w-8/12 md:invisible text-lime-400"
         >
-          Music is like a dream. · Without music, life would be a mistake ―
+          Music is like a dream. Without music, life would be a mistake ―
           Friedrich Nietzsche
         </p>
       </div>
