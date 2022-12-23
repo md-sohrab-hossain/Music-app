@@ -9,9 +9,9 @@
     <div class="container -mt-8 mx-auto flex items-center">
       <!-- Play/Pause Button -->
       <div
-        @click="$emit('playMusic')"
         class="playButton"
         :class="{ 'button-active': isPlaying }"
+        @click="$emit('playMusic')"
       >
         <i class="fas fa-play"></i>
       </div>
@@ -62,6 +62,7 @@ export default defineComponent({
   box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.1),
     -10px -10px 10px rgba(255, 255, 255, 0.6);
 }
+
 .playButton .fas {
   display: grid;
   place-items: center;
@@ -81,7 +82,7 @@ export default defineComponent({
   background: radial-gradient(circle, #0ff 0%, #e0e5ec 60%);
 
   color: rgba(102, 102, 102, 0.5);
-  animation: colorChange 3s linear infinite;
+  animation: colorChange 2s linear infinite;
 }
 
 @keyframes colorChange {
