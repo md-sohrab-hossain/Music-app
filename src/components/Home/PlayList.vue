@@ -35,7 +35,7 @@
           </div>
         </li>
 
-        <li v-if="!songs.length" class="p-3 text-center text-amber-300">
+        <li v-if="!isEmpty" class="p-3 text-center text-amber-300">
           Songs List Is Empty..!
         </li>
 
@@ -56,6 +56,6 @@ import "animate.css";
 
 export default defineComponent({
   name: "PlayList",
-  props: ["songs", "isLoading"],
+  props: ["songs", "isLoading", "isEmpty"],
 });
 </script>

@@ -1,7 +1,11 @@
 <template>
   <main>
     <hero />
-    <play-list :songs="songsList" :isLoading="isLoading" />
+    <play-list
+      :songs="songsList"
+      :isLoading="isLoading"
+      :isEmpty="songsListLength"
+    />
   </main>
 </template>
 
@@ -58,7 +62,7 @@ export default defineComponent({
 
     // Pagination
     const getSongs = async () => {
-      if (isLoading.value) return;
+      if (isLoading.value || !songsListLength.value) return;
       isLoading.value = true;
 
       let snapshots = null;
@@ -86,6 +90,7 @@ export default defineComponent({
     return {
       songsList,
       isLoading,
+      songsListLength,
     };
   },
 });
