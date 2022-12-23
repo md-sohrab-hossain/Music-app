@@ -40,7 +40,9 @@
         </li>
 
         <li v-else-if="isLoading" class="p-3 text-center text-orange-600">
-          <p class="animate__animated animate__tada">Loading...</p>
+          <p class="animate__animated animate__tada animate__infinite">
+            Loading...
+          </p>
         </li>
       </ol>
       <!-------- end Playlist ------->
