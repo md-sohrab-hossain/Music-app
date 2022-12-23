@@ -34,7 +34,7 @@ export default defineComponent({
     const maxPerPage: number = 5;
     const isLoading = ref<boolean>(false);
     const songsList = ref<DocumentData>([]);
-    const songsListLength = ref<number>(0);
+    const songsListLength = ref<number>(-1);
 
     onMounted(async () => {
       songsList.value = [];

@@ -3,7 +3,7 @@
   <div class="fixed bottom-0 left-0 bg-gray-900 px-4 py-2 w-full">
     <!-- Track Info -->
     <div class="text-center" v-if="current_song.modified_name">
-      <span class="song-title font-bold text-white">{{
+      <span class="song-title font-bold text-white text-sm">{{
         current_song.modified_name
       }}</span>
       <span class="song-artist text-white"
@@ -11,9 +11,11 @@
       >
     </div>
 
-    <div class="flex gap-4 items-center">
+    <div class="flex gap-4 flex-col-reverse md:flex-row">
       <!-- Player -->
-      <div class="flex flex-row w-5/6 flex-nowrap items-center gap-4">
+      <div
+        class="flex flex-row w-full md:w-5/6 mb-2 md:mb-0 flex-nowrap items-center gap-4"
+      >
         <!-- Play/Pause Button -->
         <button type="button" @click.prevent="toggleAudio">
           <i
@@ -50,7 +52,7 @@
       </div>
 
       <!-- control volume -->
-      <div class="w-auto h-8 flex flex-row items-center">
+      <div class="w-auto h-2 md:h-8 mt-4 md:mt-0 flex flex-row items-center">
         <i class="fa fa-volume-down text-gray-500 mr-2"></i>
         <input
           class="h-1 w-fit form-range accent-blue-400 bg-gray-300 rounded-2xl cursor-pointer"

@@ -2,22 +2,22 @@
   <!-- Music Header -->
   <section class="w-full mb-8 py-14 text-center text-white relative">
     <div
-      class="absolute inset-0 w-full h-full box-border bg-contain"
+      class="absolute inset-0 w-full h-full box-border bg-contain bg-repeat-x"
       :class="{ 'music-bg': isPlaying }"
       style="background-image: url(/assets/img/header-12.png)"
     ></div>
     <div class="container -mt-8 mx-auto flex items-center">
       <!-- Play/Pause Button -->
       <div
-        class="playButton"
+        class="playButton ml-2 md:ml-0"
         :class="{ 'button-active': isPlaying }"
         @click="$emit('playMusic')"
       >
         <i class="fas fa-play"></i>
       </div>
-      <div class="z-50 text-left ml-8">
+      <div class="z-50 text-left ml-8 -mt-12 md:-mt-0">
         <!-- Song Info -->
-        <div class="text-3xl font-bold text-green-400">
+        <div class="text-1xl md:text-3xl font-bold text-green-400">
           {{ songInfo?.modified_name }}
         </div>
         <div class="text-red-600 font-bold capitalize">

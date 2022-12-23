@@ -1,9 +1,9 @@
 <template>
   <main>
-    <div class="about mt-5 flex flex-col justify-center items-center">
+    <div class="about -mt-40 flex flex-col justify-center items-center">
       <img
         src="/assets/img/sohrab.jpg"
-        class="w-56 h-56 mb-2 object-fill rounded-full -rotate-3"
+        class="md:w-56 md:h-56 mb-2 w-36 h-36 object-fill rounded-full -rotate-3"
         alt="authors"
       />
 
@@ -17,11 +17,9 @@
 </template>
 
 <style>
-@media (min-width: 1024px) {
-  .about {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-  }
+.about {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
 }
 </style>
