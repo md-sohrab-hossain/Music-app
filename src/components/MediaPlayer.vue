@@ -1,68 +1,57 @@
 <template>
   <!-- Player -->
-  <div class="fixed bottom-0 left-0 bg-gray-900 px-4 py-2 w-full">
+  <div class="fixed bottom-0 left-0 w-full px-4 py-2 bg-gray-900">
     <!-- Track Info -->
     <div class="text-center" v-if="current_song.modified_name">
-      <span class="song-title font-bold text-white text-sm">{{
+      <span class="text-sm font-bold text-white song-title">{{
         current_song.modified_name
       }}</span>
-      <span class="song-artist text-white"
+      <span class="text-white song-artist"
         >{{ " " }}by {{ current_song.display_name }}</span
       >
     </div>
 
-    <div class="flex gap-4 flex-col-reverse md:flex-row">
+    <div class="flex flex-col-reverse gap-4 md:flex-row">
       <!-- Player -->
       <div
-        class="flex flex-row w-full md:w-5/6 mb-2 md:mb-0 flex-nowrap items-center gap-4"
+        class="flex flex-row items-center w-full gap-4 mb-2 md:w-5/6 md:mb-0 flex-nowrap"
       >
         <!-- Play/Pause Button -->
         <button type="button" @click.prevent="toggleAudio">
           <i
-            class="fa text-gray-500 text-xl"
+            class="text-xl text-gray-500 fa"
             :class="{ 'fa-play': !isPlaying, 'fa-pause': isPlaying }"
           ></i>
         </button>
         <!-- Current Position -->
-        <div class="player-currenttime text-white">{{ seek }}</div>
+        <div class="text-white player-currenttime">{{ seek }}</div>
         <!-- Scrub Container  -->
-        <div
-          @click.prevent="updateSeek"
-          class="w-5/6 h-2 rounded bg-gray-200 relative cursor-pointer"
-        >
-          <!-- Player Ball -->
-          <span
-            class="absolute -top-2.5 -ml-2.5 text-blue-400 text-lg"
-            :style="{
-              left: playerProgress,
-            }"
-          >
-            <i class="fas fa-circle"></i>
-          </span>
-          <!-- Player Progress Bar-->
-          <span
-            class="block h-2 rounded bg-gradient-to-r from-green-500 to-green-400"
-            :style="{
-              width: playerProgress,
-            }"
-          ></span>
-        </div>
-        <!-- Duration -->
-        <div class="player-duration text-white">{{ duration }}</div>
-      </div>
-
-      <!-- control volume -->
-      <div class="w-auto h-2 md:h-8 mt-4 md:mt-0 flex flex-row items-center">
-        <i class="fa fa-volume-down text-gray-500 mr-2"></i>
         <input
-          class="h-1 w-fit form-range accent-blue-400 bg-gray-300 rounded-2xl cursor-pointer"
+          class="w-5/6 h-1.5 cursor-pointer form-range accent-green-400 rounded-2xl"
           type="range"
           min="0"
           max="100"
+          :value="playerProgress"
+          @input.prevent="updateSeek"
+          @change.prevent="updateSeek"
+        />
+        <!-- Duration -->
+        <div class="text-white player-duration">{{ duration }}</div>
+      </div>
+
+      <!-- control volume -->
+      <div class="flex flex-row items-center w-auto h-2 mt-4 md:h-8 md:mt-0">
+        <i class="mr-2 text-gray-500 fa fa-volume-down"></i>
+        <input
+          class="h-1 bg-gray-300 cursor-pointer w-fit form-range accent-blue-400 rounded-2xl"
+          type="range"
+          min="0"
+          max="100"
+          :value="volume"
           @input.prevent="updateAudioVolume"
           @change.prevent="updateAudioVolume"
         />
-        <i class="fa fa-volume-up text-gray-500 ml-2"></i>
+        <i class="ml-2 text-gray-500 fa fa-volume-up"></i>
       </div>
     </div>
   </div>
