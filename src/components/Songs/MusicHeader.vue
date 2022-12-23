@@ -3,7 +3,7 @@
   <section class="w-full mb-8 py-14 text-center text-white relative">
     <div
       class="absolute inset-0 w-full h-full box-border bg-contain"
-      :class="[isPlaying ? 'music-bg' : '']"
+      :class="{ 'music-bg': isPlaying }"
       style="background-image: url(/assets/img/header-12.png)"
     ></div>
     <div class="container -mt-8 mx-auto flex items-center">
@@ -11,7 +11,7 @@
       <div
         @click="$emit('playMusic')"
         class="playButton"
-        :class="{ buttonActive: isPlaying }"
+        :class="{ 'button-active': isPlaying }"
       >
         <i class="fas fa-play"></i>
       </div>
@@ -77,7 +77,7 @@ export default defineComponent({
 }
 
 .playButton:hover,
-.buttonActive {
+.button-active {
   background: radial-gradient(circle, #0ff 0%, #e0e5ec 60%);
 
   color: rgba(102, 102, 102, 0.5);
