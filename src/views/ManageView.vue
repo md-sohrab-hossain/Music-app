@@ -55,7 +55,7 @@ import CompositionItem from "@/components/Manage/CompositionItem.vue";
 import {
   useGetSongList,
   useUpdateSongs,
-  // deleteFile,
+  deleteFile,
   useDeleteSong,
 } from "@/utility/firebaseUtility";
 /**----- Modify Songs List ----- */
@@ -130,7 +130,7 @@ export default defineComponent({
     /**------ Delete Songs ----------- */
     const deleteSong = (songName: string, docId: string) => {
       try {
-        //deleteFile(songName);
+        deleteFile(songName);
         useDeleteSong(docId);
 
         const UpdatedList = songsList.value.filter(
