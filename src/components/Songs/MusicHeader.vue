@@ -10,7 +10,7 @@
       <!-- Play/Pause Button -->
       <div
         class="ml-2 playButton md:ml-0"
-        :class="{ 'button-active': isPlaying }"
+        :class="{ 'button-active': isSongPlaying }"
         @click="$emit('playMusic')"
       >
         <i class="fas fa-play"></i>
@@ -40,10 +40,11 @@ export default defineComponent({
 
   setup() {
     const store = usePlayerStore();
-    const { isPlaying } = storeToRefs(store);
+    const { isPlaying, isSongPlaying } = storeToRefs(store);
 
     return {
       isPlaying,
+      isSongPlaying,
     };
   },
 });

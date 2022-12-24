@@ -48,6 +48,7 @@ export const usePlayerStore = defineStore("player", () => {
 
   function stopAudio() {
     if (!sound.value?.playing) return;
+    isSongPlaying.value = false;
     isSongEnd.value = true;
     Howler.stop();
   }
@@ -78,10 +79,7 @@ export const usePlayerStore = defineStore("player", () => {
     const seconds = (sound.value?.duration() / 100) * percentage;
 
     sound.value?.seek(seconds);
-    sound.value?.once(
-      "seek",
-      async () => await requestAnimationFrame(progress)
-    );
+    sound.value?.once("seek", () => requestAnimationFrame(progress));
   }
   //** --- Action ---- *//
 
