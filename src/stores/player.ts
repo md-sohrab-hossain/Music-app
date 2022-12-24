@@ -7,7 +7,7 @@ import type { DocumentData } from "firebase/firestore";
 export const usePlayerStore = defineStore("player", () => {
   //** --- state ---- *//
   const sound = ref();
-  const volume = ref<string>("80");
+  const volume = ref<string>("100");
   const current_song = ref<DocumentData>({});
   const seek = ref<string | number>("00:00");
   const duration = ref<string | number>("00:00");
