@@ -30,7 +30,7 @@
         <div class="text-white player-currenttime">{{ seek }}</div>
         <!-- Scrub Container  -->
         <input
-          class="w-5/6 h-1.5 appearance-none bg-orange-100 cursor-pointer accent-lime-400 rounded-2xl"
+          class="w-5/6 h-1.5 cursor-pointer accent-green-400 rounded-2xl"
           type="range"
           min="0"
           max="100"

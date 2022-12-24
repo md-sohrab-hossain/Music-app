@@ -1,6 +1,6 @@
 <template>
   <!-- Introduction -->
-  <section class="relative py-20 mb-8 text-center text-white">
+  <section class="relative py-20 md:mb-8 text-center text-white">
     <div
       class="absolute inset-0 w-full h-full bg-black bg-repeat-x bg-contain md:bg-transparent introduction-bg"
       style="background-image: url(assets/img/header-8.png)"
@@ -9,7 +9,7 @@
     <div class="container mx-auto">
       <div class="text-white main-header-content">
         <h1
-          class="mb-5 font-serif text-3xl italic font-bold cursor-default animate__animated animate__jackInTheBox md:text-3xl text-cyan-400"
+          class="mb-5 mt-16 md:mt-0 font-serif text-xl italic font-bold cursor-default animate__animated animate__jackInTheBox md:text-3xl text-cyan-400"
         >
           Listen To Music Together!
         </h1>
@@ -23,7 +23,7 @@
         </p>
 
         <p
-          class="visible w-full mx-auto -mt-12 text-sm italic cursor-default md:w-8/12 md:invisible text-lime-400"
+          class="visible w-full mx-auto -mt-20 text-sm italic cursor-default md:w-8/12 md:invisible text-lime-400"
         >
           Music is like a dream. Without music, life would be a mistake ―
           Friedrich Nietzsche
