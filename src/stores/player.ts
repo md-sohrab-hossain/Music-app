@@ -31,6 +31,7 @@ export const usePlayerStore = defineStore("player", () => {
       },
       onend: () => {
         isSongEnd.value = true;
+        isSongPlaying.value = false;
       },
     });
 
