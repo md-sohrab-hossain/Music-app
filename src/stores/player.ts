@@ -50,7 +50,7 @@ export const usePlayerStore = defineStore("player", () => {
     if (!sound.value?.playing) return;
     isSongPlaying.value = false;
     isSongEnd.value = true;
-    Howler.stop();
+    sound.value.stop();
   }
 
   function updateAudioVolume(event: Event) {
