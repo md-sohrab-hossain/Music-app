@@ -78,10 +78,12 @@
         name="country"
         class="block w-full py-1.5 px-3 text-gray-800 border border-gray-300 transition duration-500 focus:outline-none focus:border-black rounded"
       >
+        <option value="Bangladesh">Bangladesh</option>
+        <option value="India">India</option>
+        <option value="Japan">Japan</option>
         <option value="USA">USA</option>
-        <option value="Mexico">Mexico</option>
         <option value="Germany">Germany</option>
-        <option value="Antarctica">Antarctica</option>
+        <option value="Australia">Australia</option>
       </vee-field>
       <ErrorMessage class="text-red-600" name="country" />
     </div>
@@ -126,7 +128,7 @@ export default defineComponent({
         terms: "required",
       },
       userData: {
-        country: "USA",
+        country: "Bangladesh",
       },
       reg_in_submission: false,
       reg_show_alert: false,
