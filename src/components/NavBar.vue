@@ -35,7 +35,7 @@
               >
             </li>
             <li>
-              <a class="px-2 text-white" href="#" @click.prevent="signOut"
+              <a class="px-2 text-white" href="#" @click.prevent="logOut"
                 >Logout</a
               >
             </li>
@@ -66,13 +66,14 @@ export default defineComponent({
     const { userLoggedIn } = storeToRefs(userStore);
     const { isOpen } = storeToRefs(modalStore);
 
-    if (route.meta.requiresAuth) {
-      router.push({ name: "home" });
-    }
+    const logOut = () => {
+      signOut();
+      route.meta.requiresAuth ? router.push({ name: "home" }) : null;
+    };
 
     return {
       isOpen,
-      signOut,
+      logOut,
       userLoggedIn,
     };
   },
