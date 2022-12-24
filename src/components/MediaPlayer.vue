@@ -17,6 +17,9 @@
         class="flex flex-row items-center w-full gap-4 mb-2 md:w-5/6 md:mb-0 flex-nowrap"
       >
         <!-- Play/Pause Button -->
+        <button type="button" @click.prevent="stopAudio">
+          <i class="fas fa-stop-circle text-xl text-gray-500" />
+        </button>
         <button type="button" @click.prevent="toggleAudio">
           <i
             class="text-xl text-gray-500 fa"
@@ -69,7 +72,7 @@ export default defineComponent({
     const store = usePlayerStore();
     const { volume, current_song, isPlaying, seek, duration, playerProgress } =
       storeToRefs(store);
-    const { toggleAudio, updateSeek, updateAudioVolume } = store;
+    const { toggleAudio, stopAudio, updateSeek, updateAudioVolume } = store;
 
     return {
       seek,
@@ -77,6 +80,7 @@ export default defineComponent({
       duration,
       isPlaying,
       updateSeek,
+      stopAudio,
       toggleAudio,
       current_song,
       playerProgress,
