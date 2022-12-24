@@ -1,7 +1,7 @@
 <template>
   <div class="border border-gray-200 p-3 mb-4 rounded">
     <div v-show="!showForm">
-      <h4 class="inline-block text-2xl font-bold truncate w-10/12 text-left">
+      <h4 class="inline-block text font-bold truncate w-10/12 text-left">
         {{ song.modified_name }}
       </h4>
       <button
@@ -15,6 +15,12 @@
         class="ml-1 py-1 px-2 text-sm rounded text-white bg-blue-600 float-right"
       >
         <i class="fa fa-pencil-alt"></i>
+      </button>
+      <button
+        class="ml-1 py-1 px-2 text-sm rounded text-white bg-green-400 float-right"
+        @click.prevent="playMusic(song)"
+      >
+        <i class="fas fa-play"></i>
       </button>
     </div>
 
@@ -75,8 +81,10 @@
 </template>
 
 <script lang="ts">
-import { ErrorMessage } from "vee-validate";
 import { defineComponent, ref } from "vue";
+import { ErrorMessage } from "vee-validate";
+import { usePlayerStore } from "@/stores/player";
+
 export default defineComponent({
   name: "CompositionItem",
   emits: ["editSong", "deleteSong"],
@@ -89,12 +97,15 @@ export default defineComponent({
   ],
   setup() {
     const showForm = ref<boolean>(false);
+    const { playAudio } = usePlayerStore();
+    const playMusic = (song: any) => playAudio(song);
 
     return {
       schema: {
         modified_name: "required",
         genre: "alpha_spaces",
       },
+      playMusic,
       showForm,
     };
   },
