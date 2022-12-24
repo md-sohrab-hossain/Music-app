@@ -31,7 +31,7 @@ export default defineComponent({
   },
 
   setup() {
-    const maxPerPage: number = 5;
+    const maxPerPage: number = 10;
     const isLoading = ref<boolean>(false);
     const songsList = ref<DocumentData>([]);
     const songsListLength = ref<number>(-1);
