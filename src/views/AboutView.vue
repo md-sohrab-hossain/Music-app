@@ -1,6 +1,6 @@
 <template>
   <main>
-    <div class="flex flex-col items-center justify-center -mt-40 about">
+    <div class="flex flex-col items-center justify-center -mt-40 md:mt-1 about">
       <img
         src="/assets/img/sohrab.jpg"
         class="object-fill mt-6 mb-2 rounded-lg md:w-52 md:h-64 w-30 h-36"
