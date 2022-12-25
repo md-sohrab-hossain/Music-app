@@ -3,14 +3,14 @@
   <section class="relative w-full mb-8 text-center text-white py-14">
     <div
       class="box-border absolute inset-0 w-full h-full bg-repeat-x bg-contain"
-      :class="{ 'music-bg': isPlaying }"
+      :class="{ 'music-bg': isSongPlaying === 'play' }"
       style="background-image: url(/assets/img/header-12.png)"
     ></div>
     <div class="container flex items-center mx-auto -mt-8">
       <!-- Play/Pause Button -->
       <di
         class="ml-2 playButton md:ml-0"
-        :class="{ 'button-active': isSongPlaying }"
+        :class="{ 'button-active': isSongPlaying !== 'stop' }"
         @click="$emit('playMusic')"
       >
         <i class="fas fa-play"></i>
@@ -40,10 +40,9 @@ export default defineComponent({
 
   setup() {
     const store = usePlayerStore();
-    const { isPlaying, isSongPlaying } = storeToRefs(store);
+    const { isSongPlaying } = storeToRefs(store);
 
     return {
-      isPlaying,
       isSongPlaying,
     };
   },

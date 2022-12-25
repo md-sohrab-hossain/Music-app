@@ -23,7 +23,10 @@
         <button type="button" @click.prevent="toggleAudio">
           <i
             class="text-xl text-gray-500 fa"
-            :class="{ 'fa-play': !isPlaying, 'fa-pause': isPlaying }"
+            :class="{
+              'fa-play': isSongPlaying !== 'play',
+              'fa-pause': isSongPlaying === 'play',
+            }"
           ></i>
         </button>
         <!-- Current Position -->
@@ -36,7 +39,6 @@
           max="100"
           :value="playerProgress"
           @input.prevent="updateSeek"
-          @change.prevent="updateSeek"
         />
         <!-- Duration -->
         <div class="text-white player-duration">{{ duration }}</div>
@@ -52,7 +54,6 @@
           max="100"
           :value="volume"
           @input.prevent="updateAudioVolume"
-          @change.prevent="updateAudioVolume"
         />
         <i class="ml-2 text-gray-500 fa fa-volume-up"></i>
       </div>
@@ -70,15 +71,22 @@ export default defineComponent({
 
   setup() {
     const store = usePlayerStore();
-    const { volume, current_song, isPlaying, seek, duration, playerProgress } =
-      storeToRefs(store);
+    const {
+      volume,
+      current_song,
+      isSongPlaying,
+      seek,
+      duration,
+      playerProgress,
+    } = storeToRefs(store);
+
     const { toggleAudio, stopAudio, updateSeek, updateAudioVolume } = store;
 
     return {
       seek,
       volume,
       duration,
-      isPlaying,
+      isSongPlaying,
       updateSeek,
       stopAudio,
       toggleAudio,

@@ -11,8 +11,8 @@ export const usePlayerStore = defineStore("player", () => {
   const current_song = ref<DocumentData>({});
   const seek = ref<string | number>("00:00");
   const duration = ref<string | number>("00:00");
+  const isSongPlaying = ref<string>("stop");
   const playerProgress = ref<string>("0");
-  const isSongPlaying = ref<boolean>(false);
   const isSongEnd = ref<boolean>(false);
   //** --- state ---- *//
 
@@ -31,7 +31,7 @@ export const usePlayerStore = defineStore("player", () => {
       },
       onend: () => {
         isSongEnd.value = true;
-        isSongPlaying.value = false;
+        isSongPlaying.value = "stop";
       },
     });
 
@@ -42,14 +42,16 @@ export const usePlayerStore = defineStore("player", () => {
     if (!sound.value?.playing) return;
     if (sound.value.playing()) {
       sound.value.pause();
+      isSongPlaying.value = "pause";
     } else {
       sound.value.play();
+      isSongPlaying.value = "play";
     }
   }
 
   function stopAudio() {
     if (!sound.value?.playing) return;
-    isSongPlaying.value = false;
+    isSongPlaying.value = "stop";
     isSongEnd.value = true;
     sound.value.stop();
   }
@@ -69,7 +71,7 @@ export const usePlayerStore = defineStore("player", () => {
 
     if (sound.value?.playing()) {
       isSongEnd.value = false;
-      isSongPlaying.value = true;
+      isSongPlaying.value = "play";
       requestAnimationFrame(progress);
     }
   }
