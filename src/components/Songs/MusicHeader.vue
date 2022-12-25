@@ -8,13 +8,13 @@
     ></div>
     <div class="container flex items-center mx-auto -mt-8">
       <!-- Play/Pause Button -->
-      <di
+      <div
         class="ml-2 playButton md:ml-0"
         :class="{ 'button-active': isSongPlaying !== 'stop' }"
         @click="$emit('playMusic')"
       >
         <i class="fas fa-play"></i>
-      </di>
+      </div>
       <div class="z-50 ml-8 -mt-12 text-left md:-mt-0">
         <!-- Song Info -->
         <div class="text-xl font-bold text-green-400 md:text-2xl">
