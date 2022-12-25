@@ -76,10 +76,10 @@ export const usePlayerStore = defineStore("player", () => {
     }
   }
 
-  function updateSeek(event: any) {
+  function updateSeek(event: Event) {
     if (!sound.value?.playing) return;
-    const percentage = event.target.value;
-    const seconds = (sound.value?.duration() / 100) * percentage;
+    const percentage = (event.target as HTMLInputElement).value;
+    const seconds = (sound.value?.duration() / 100) * Number(percentage);
 
     sound.value?.seek(seconds);
     sound.value?.once("seek", () => requestAnimationFrame(progress));
