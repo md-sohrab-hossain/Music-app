@@ -56,16 +56,11 @@ export default defineComponent({
   cursor: pointer;
   padding: 2.5rem;
   z-index: 10;
-  overflow: hidden;
   background: #efeeee;
   border-radius: 50%;
   transition: all 0.3s ease-in;
   box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.1),
     -10px -10px 10px rgba(255, 255, 255, 0.6);
-}
-
-.playButton:active:focus {
-  box-shadow: none;
 }
 
 .playButton .fas {
