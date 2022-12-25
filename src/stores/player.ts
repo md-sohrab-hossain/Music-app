@@ -56,12 +56,6 @@ export const usePlayerStore = defineStore("player", () => {
     sound.value.stop();
   }
 
-  function updateAudioVolume(event: Event) {
-    const newVolume = (event.target as HTMLInputElement).value;
-    volume.value = String(newVolume);
-    Howler.volume(Number(newVolume) / 100);
-  }
-
   function progress() {
     seek.value = formatTime(sound.value?.seek());
     duration.value = formatTime(sound.value?.duration());
@@ -74,6 +68,12 @@ export const usePlayerStore = defineStore("player", () => {
       isSongPlaying.value = "play";
       requestAnimationFrame(progress);
     }
+  }
+
+  function updateAudioVolume(event: Event) {
+    const newVolume = (event.target as HTMLInputElement).value;
+    volume.value = String(newVolume);
+    Howler.volume(Number(newVolume) / 100);
   }
 
   function updateSeek(event: Event) {
