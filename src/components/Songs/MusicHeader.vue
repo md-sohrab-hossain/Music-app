@@ -8,13 +8,13 @@
     ></div>
     <div class="container flex items-center mx-auto -mt-8">
       <!-- Play/Pause Button -->
-      <div
+      <di
         class="ml-2 playButton md:ml-0"
         :class="{ 'button-active': isSongPlaying }"
         @click="$emit('playMusic')"
       >
         <i class="fas fa-play"></i>
-      </div>
+      </di>
       <div class="z-50 ml-8 -mt-12 text-left md:-mt-0">
         <!-- Song Info -->
         <div class="text-xl font-bold text-green-400 md:text-2xl">
@@ -56,12 +56,17 @@ export default defineComponent({
   place-items: center;
   cursor: pointer;
   padding: 2.5rem;
-  z-index: 999999;
+  z-index: 10;
+  overflow: hidden;
   background: #efeeee;
   border-radius: 50%;
   transition: all 0.3s ease-in;
   box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.1),
     -10px -10px 10px rgba(255, 255, 255, 0.6);
+}
+
+.playButton:active:focus {
+  box-shadow: none;
 }
 
 .playButton .fas {
