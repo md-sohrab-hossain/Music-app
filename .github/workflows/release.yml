@@ -19,6 +19,9 @@ jobs:
           PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
         run: |
           docker login -u $NAME -p $PASSWORD
-              
+      
+      - name: Create a docker Image
+        run: docker build -t sajalkhan/music-player .
+
       - name: Docker push to dockerHub
         run: docker push sajalkhan/music-player
