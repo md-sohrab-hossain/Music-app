@@ -1,0 +1,26 @@
+name: Release
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  # check deploy successful
+  deploy-to-dockerHub:
+    name: Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout from (master)
+        uses: actions/checkout@v2
+      - name: Docker login
+        env:
+          NAME: ${{ secrets.DOCKERHUB_USERNAME }}
+          PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
+        run: |
+          docker login -u $NAME -p $PASSWORD
+      - name: Create docker container
+        run: docker compose build
+        
+      - name: Docker push to dockerHub
+        run: docker push sajalkhan/music-player
