@@ -11,3 +11,7 @@ RUN npm run build
 EXPOSE 5000
 # Run the "dev" script in package.json
 CMD ["http-server", "dist"]
+
+
+# After pull image run this command: 
+# - docker run -it -p 8080:8080 sajalkhan/music-player
