@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
+import type { RouterScrollBehavior } from "vue-router";
 import Home from "@/views/HomeView.vue";
 import About from "@/views/AboutView.vue";
 import Manage from "@/views/ManageView.vue";
@@ -18,6 +19,12 @@ const routes = [
     path: "/",
     name: "home",
     component: Home,
+    meta: {
+      scrollPos: {
+        top: 0,
+        left: 0,
+      },
+    },
   },
   {
     path: "/about",
@@ -43,21 +50,38 @@ const routes = [
   },
 ];
 
+const scrollBehavior: RouterScrollBehavior = (
+  to: any,
+  from: any,
+  savedPosition
+) => {
+  if (to.name === from.name) {
+    to.meta?.scrollPos && (to.meta.scrollPos.top = 0);
+    return { left: 0, top: 0 };
+  }
+  const scrollPos = savedPosition || to.meta?.scrollPos || { left: 0, top: 0 };
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(scrollPos);
+    }, 600);
+  });
+};
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   linkExactActiveClass: "text-yellow-500",
-  scrollBehavior() {
-    return { top: 0 };
-  },
+  scrollBehavior,
   routes,
 });
 
 //? Global guard for every router
-router.beforeEach((to, from, next) => {
-  if (!to.meta.requiresAuth) {
-    next();
-    return;
+router.beforeEach((to: any, from: any, next) => {
+  if (from.meta?.scrollPos) {
+    from.meta.scrollPos.top = window.scrollY;
+    return next();
   }
+
+  if (!to.meta.requiresAuth) return next();
 
   // Remove Hash from url
   if (to.fullPath.substring(0, 2) === "/#") {
