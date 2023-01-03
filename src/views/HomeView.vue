@@ -2,7 +2,7 @@
   <main>
     <hero />
     <play-list
-      :songs="songsList"
+      :songs="songs"
       :isLoading="isLoading"
       :isEmpty="songsListLength"
     />
@@ -18,6 +18,8 @@ import {
   useGetPaginatedSongs,
   useGetComments,
 } from "@/utility/firebaseUtility";
+import { storeToRefs } from "pinia";
+import { useSongsStore } from "@/stores/songs";
 import type { DocumentData } from "firebase/firestore";
 
 import Hero from "@/components/Home/Hero.vue";
@@ -33,11 +35,12 @@ export default defineComponent({
   setup() {
     const maxPerPage: number = 10;
     const isLoading = ref<boolean>(false);
-    const songsList = ref<DocumentData>([]);
     const songsListLength = ref<number>(-1);
 
+    const store = useSongsStore();
+    const { songs } = storeToRefs(store);
+
     onMounted(async () => {
-      songsList.value = [];
       songsListLength.value = (await useGetSongListLength()) || 0;
       window.addEventListener("scroll", handleScroll);
       getSongs();
@@ -66,9 +69,9 @@ export default defineComponent({
       isLoading.value = true;
 
       let snapshots = null;
-      if (songsList.value.length < songsListLength.value) {
-        if (songsList.value.length) {
-          const docId = songsList.value[songsList.value.length - 1].docId;
+      if (songs.value.length < songsListLength.value) {
+        if (songs.value.length) {
+          const docId = songs.value[songs.value.length - 1].docId;
           const lastDoc: any = await useGetDocById(docId);
           snapshots = await useGetPaginatedSongs(maxPerPage, lastDoc);
         } else {
@@ -78,7 +81,7 @@ export default defineComponent({
 
       snapshots?.forEach(async (doc: any) => {
         const comment_count = await useGetComments(doc.docId);
-        songsList.value.push({
+        songs.value.push({
           ...doc,
           comment_count: comment_count?.length,
         });
@@ -88,7 +91,7 @@ export default defineComponent({
     };
 
     return {
-      songsList,
+      songs,
       isLoading,
       songsListLength,
     };
