@@ -20,7 +20,6 @@ import {
 } from "@/utility/firebaseUtility";
 import { storeToRefs } from "pinia";
 import { useSongsStore } from "@/stores/songs";
-import type { DocumentData } from "firebase/firestore";
 
 import Hero from "@/components/Home/Hero.vue";
 import PlayList from "@/components/Home/PlayList.vue";
@@ -41,9 +40,11 @@ export default defineComponent({
     const { songs } = storeToRefs(store);
 
     onMounted(async () => {
-      songsListLength.value = (await useGetSongListLength()) || 0;
-      window.addEventListener("scroll", handleScroll);
-      getSongs();
+      if (songsListLength.value < 0) {
+        songsListLength.value = (await useGetSongListLength()) || 0;
+        window.addEventListener("scroll", handleScroll);
+        getSongs();
+      }
     });
 
     onBeforeUnmount(() => {
