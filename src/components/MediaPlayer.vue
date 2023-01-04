@@ -16,10 +16,24 @@
       <div
         class="flex flex-row items-center w-full gap-4 mb-2 md:w-5/6 md:mb-0 flex-nowrap"
       >
-        <!-- Play/Pause Button -->
+        <!-- Stop Button -->
         <button type="button" @click.prevent="stopAudio">
           <i class="fas fa-stop-circle text-xl text-gray-500" />
         </button>
+
+        <!-- Previous Button -->
+        <button
+          type="button"
+          @click.prevent="playPreviousSong"
+          :disabled="!getAllSongs.length"
+        >
+          <i
+            class="fas fa-angle-left text-2xl text-gray-500"
+            :class="{ 'text-gray-700': !getAllSongs.length }"
+          />
+        </button>
+
+        <!-- Play/Pause Button -->
         <button type="button" @click.prevent="toggleAudio">
           <i
             class="text-xl text-gray-500 fa"
@@ -29,8 +43,21 @@
             }"
           ></i>
         </button>
+
+        <!-- Next Button -->
+        <button
+          type="button"
+          @click.prevent="playNextSong"
+          :disabled="!getAllSongs.length"
+        >
+          <i
+            class="fas fa-angle-right text-2xl text-gray-500"
+            :class="{ 'text-gray-700': !getAllSongs.length }"
+          />
+        </button>
         <!-- Current Position -->
         <div class="text-white player-currenttime">{{ seek }}</div>
+
         <!-- Scrub Container  -->
         <input
           class="w-5/6 h-1.5 cursor-pointer accent-green-400 rounded-2xl"
@@ -71,26 +98,38 @@ export default defineComponent({
 
   setup() {
     const store = usePlayerStore();
+
     const {
+      seek,
       volume,
+      duration,
       current_song,
       isSongPlaying,
-      seek,
-      duration,
       playerProgress,
     } = storeToRefs(store);
 
-    const { toggleAudio, stopAudio, updateSeek, updateAudioVolume } = store;
+    const {
+      stopAudio,
+      updateSeek,
+      toggleAudio,
+      getAllSongs,
+      playNextSong,
+      playPreviousSong,
+      updateAudioVolume,
+    } = store;
 
     return {
       seek,
       volume,
       duration,
-      isSongPlaying,
-      updateSeek,
       stopAudio,
+      updateSeek,
+      getAllSongs,
       toggleAudio,
       current_song,
+      playNextSong,
+      isSongPlaying,
+      playPreviousSong,
       playerProgress,
       updateAudioVolume,
     };

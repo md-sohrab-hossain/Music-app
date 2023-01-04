@@ -7,7 +7,9 @@ import type { DocumentData } from "firebase/firestore";
 export const usePlayerStore = defineStore("player", () => {
   //** --- state ---- *//
   const sound = ref();
+  const songs = ref<DocumentData>([]);
   const volume = ref<string>("100");
+  const songInfo = ref<DocumentData>([]);
   const current_song = ref<DocumentData>({});
   const seek = ref<string | number>("00:00");
   const duration = ref<string | number>("00:00");
@@ -19,6 +21,7 @@ export const usePlayerStore = defineStore("player", () => {
   //** --- Action ---- *//
   function playAudio(song: any) {
     current_song.value = song;
+    songInfo.value = song;
     // if we click twice to playButton it will unload audio
     if (sound.value instanceof Howl) sound.value?.unload();
 
@@ -36,6 +39,38 @@ export const usePlayerStore = defineStore("player", () => {
     });
 
     sound.value.play();
+  }
+
+  function playNextSong() {
+    let songIndx: number = 0;
+    const currentSongId: string = current_song.value.docId;
+    const playListLength: number = getAllSongs.value.length - 1;
+
+    for (const item of Object.values(getAllSongs.value)) {
+      if (item.docId === currentSongId && songIndx < playListLength) {
+        playAudio(getAllSongs.value[songIndx + 1]);
+        break;
+      } else if (item.docId === currentSongId && songIndx == playListLength) {
+        playAudio(getAllSongs.value[0]);
+      }
+      songIndx++;
+    }
+  }
+
+  function playPreviousSong() {
+    let songIndx: number = 0;
+    const currentSongId: string = current_song.value.docId;
+    const playListLength: number = getAllSongs.value.length - 1;
+
+    for (const item of Object.values(getAllSongs.value)) {
+      if (item.docId === currentSongId && songIndx) {
+        playAudio(getAllSongs.value[songIndx - 1]);
+        break;
+      } else if (item.docId === currentSongId && songIndx == 0) {
+        playAudio(getAllSongs.value[playListLength]);
+      }
+      songIndx++;
+    }
   }
 
   function toggleAudio() {
@@ -90,20 +125,27 @@ export const usePlayerStore = defineStore("player", () => {
   const isPlaying = computed(() =>
     sound.value?.playing ? sound.value.playing() : false
   );
+
+  const getAllSongs = computed(() => songs.value);
   //** --- Getters ---- *//
 
   return {
     seek,
+    songs,
     volume,
+    songInfo,
     duration,
+    getAllSongs,
     isSongPlaying,
     isPlaying,
     isSongEnd,
     playAudio,
     stopAudio,
     toggleAudio,
-    updateSeek,
     current_song,
+    playNextSong,
+    playPreviousSong,
+    updateSeek,
     playerProgress,
     updateAudioVolume,
   };

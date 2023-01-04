@@ -38,6 +38,7 @@ import type { DocumentData } from "firebase/firestore";
 import { useRoute, useRouter } from "vue-router";
 import { defineComponent, onMounted, watch, ref } from "vue";
 import { usePlayerStore } from "@/stores/player";
+import { storeToRefs } from "pinia";
 
 import MusicHeader from "@/components/Songs/MusicHeader.vue";
 import CommentsForm from "@/components/Songs/CommentsForm.vue";
@@ -63,7 +64,6 @@ export default defineComponent({
   setup() {
     const route: any = useRoute();
     const router: any = useRouter();
-    const songInfo = ref<DocumentData>([]);
     const commentsCount = ref<number>(0);
     const commentsList = ref<DocumentData | undefined>([]);
     const comment_in_submission = ref<boolean>(false);
@@ -73,6 +73,8 @@ export default defineComponent({
       "Please wait! Your comment is being submitted"
     );
 
+    const store = usePlayerStore();
+    const { songInfo } = storeToRefs(store);
     const { playAudio } = usePlayerStore();
 
     onMounted(async () => {
