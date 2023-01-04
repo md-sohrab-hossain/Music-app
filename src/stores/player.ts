@@ -94,13 +94,14 @@ export const usePlayerStore = defineStore("player", () => {
   function progress() {
     seek.value = formatTime(sound.value?.seek());
     duration.value = formatTime(sound.value?.duration());
-    playerProgress.value = String(
-      (sound.value?.seek() / sound.value?.duration()) * 100
-    );
 
     if (sound.value?.playing()) {
       isSongEnd.value = false;
       isSongPlaying.value = "play";
+      playerProgress.value = String(
+        (sound.value?.seek() / sound.value?.duration()) * 100
+      );
+
       requestAnimationFrame(progress);
     }
   }

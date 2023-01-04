@@ -13,6 +13,10 @@
         <li v-for="song in songs" :key="song.docId">
           <div
             class="flex items-center justify-between gap-2 p-3 pl-6 transition duration-300 cursor-pointer hover:bg-gray-50"
+            :class="{
+              'bg-gradient-to-r from-indigo-500':
+                current_song.docId === song.docId,
+            }"
           >
             <div class="w-5/6 md:w-auto">
               <router-link
@@ -51,11 +55,22 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
 import "animate.css";
+import { defineComponent } from "vue";
+import { storeToRefs } from "pinia";
+import { usePlayerStore } from "@/stores/player";
 
 export default defineComponent({
   name: "PlayList",
   props: ["songs", "isLoading", "isEmpty"],
+
+  setup() {
+    const store = usePlayerStore();
+    const { current_song } = storeToRefs(store);
+
+    return {
+      current_song,
+    };
+  },
 });
 </script>
