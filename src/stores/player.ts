@@ -35,6 +35,7 @@ export const usePlayerStore = defineStore("player", () => {
       onend: () => {
         isSongEnd.value = true;
         isSongPlaying.value = "stop";
+        current_song.value = {};
       },
     });
 
@@ -87,6 +88,7 @@ export const usePlayerStore = defineStore("player", () => {
   function stopAudio() {
     if (!sound.value?.playing) return;
     isSongPlaying.value = "stop";
+    current_song.value = {};
     isSongEnd.value = true;
     sound.value.stop();
   }
