@@ -19,7 +19,7 @@ import {
   useGetComments,
 } from "@/utility/firebaseUtility";
 import { storeToRefs } from "pinia";
-import { useSongsStore } from "@/stores/songs";
+import { usePlayerStore } from "@/stores/player";
 
 import Hero from "@/components/Home/Hero.vue";
 import PlayList from "@/components/Home/PlayList.vue";
@@ -36,7 +36,7 @@ export default defineComponent({
     const isLoading = ref<boolean>(false);
     const songsListLength = ref<number>(-1);
 
-    const store = useSongsStore();
+    const store = usePlayerStore();
     const { songs } = storeToRefs(store);
 
     onMounted(async () => {
