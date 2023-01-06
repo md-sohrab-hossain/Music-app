@@ -112,6 +112,7 @@
 import { defineComponent } from "vue";
 import { mapActions } from "pinia";
 import { useUserStore } from "@/stores/user";
+import useModalStore from "@/stores/modal";
 
 export default defineComponent({
   name: "RegisterForm",
@@ -140,7 +141,8 @@ export default defineComponent({
     ...mapActions(useUserStore, {
       createUser: "register",
     }),
-    async register(values: any) {
+    ...mapActions(useModalStore, ["handleModal"]),
+    async register(values: any, { resetForm }: any) {
       this.reg_show_alert = true;
       this.reg_in_submission = true;
       this.reg_alert_variant = "bg-blue-500";
@@ -155,9 +157,13 @@ export default defineComponent({
         return;
       }
 
+      resetForm();
       this.reg_alert_variant = "bg-green-500";
       this.reg_alert_msg = "Success! Your account has been created.";
-      window.location.reload();
+      setTimeout(() => {
+        this.reg_show_alert = false;
+        this.handleModal(false);
+      }, 1000);
     },
   },
 });

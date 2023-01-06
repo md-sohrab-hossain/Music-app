@@ -45,6 +45,7 @@
 import { defineComponent } from "vue";
 import { mapActions } from "pinia";
 import { useUserStore } from "@/stores/user";
+import useModalStore from "@/stores/modal";
 
 export default defineComponent({
   name: "LoginForm",
@@ -62,7 +63,8 @@ export default defineComponent({
   },
   methods: {
     ...mapActions(useUserStore, ["authenticate"]),
-    async login(values: any) {
+    ...mapActions(useModalStore, ["handleModal"]),
+    async login(values: any, { resetForm }: any) {
       this.login_show_alert = true;
       this.login_in_submission = true;
       this.login_alert_variant = "bg-blue-500";
@@ -77,9 +79,14 @@ export default defineComponent({
         return;
       }
 
+      resetForm();
       this.login_alert_variant = "bg-green-500";
       this.login_alert_msg = "Success! You are now logged in.";
-      window.location.reload();
+
+      setTimeout(() => {
+        this.handleModal(false);
+        this.login_show_alert = false;
+      }, 1000);
     },
   },
 });

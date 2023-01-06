@@ -9,6 +9,9 @@ export default defineStore("modal", {
     handleLoading(value: boolean) {
       this.isLoading = value;
     },
+    handleModal(value: boolean) {
+      this.isOpen = value;
+    },
   },
   getters: {
     hiddenClass(state) {
