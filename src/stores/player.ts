@@ -7,7 +7,7 @@ import type { DocumentData } from "firebase/firestore";
 
 export const usePlayerStore = defineStore("player", () => {
   //** --- state ---- *//
-  const sound = ref();
+  const audio = ref();
   const songs = ref<DocumentData>([]);
   const volume = ref<string>("100");
   const songInfo = ref<DocumentData>([]);
@@ -25,9 +25,9 @@ export const usePlayerStore = defineStore("player", () => {
     current_song.value = song;
     songInfo.value = song;
     // if we click twice to playButton it will unload audio
-    if (sound.value instanceof Howl) sound.value?.unload();
+    if (audio.value instanceof Howl) audio.value?.unload();
 
-    sound.value = new Howl({
+    audio.value = new Howl({
       src: [song.url],
       html5: true,
       loop: false,
@@ -42,7 +42,7 @@ export const usePlayerStore = defineStore("player", () => {
       },
     });
 
-    sound.value.play();
+    audio.value.play();
   }
 
   const NextSong = () => {
@@ -83,35 +83,35 @@ export const usePlayerStore = defineStore("player", () => {
   const playPreviousSong = debounce(() => PreviousSong());
 
   function toggleAudio() {
-    if (!sound.value?.playing) return;
-    if (sound.value.playing()) {
-      sound.value.pause();
+    if (!audio.value?.playing) return;
+    if (audio.value.playing()) {
+      audio.value.pause();
       isSongPlaying.value = "pause";
     } else {
-      sound.value.play();
+      audio.value.play();
       isSongPlaying.value = "play";
     }
   }
 
   function stopAudio() {
-    if (!sound.value?.playing) return;
+    if (!audio.value?.playing) return;
     isSongPlaying.value = "stop";
     current_song.value = {};
     isSongEnd.value = true;
-    sound.value.stop();
+    audio.value.stop();
   }
 
   function progress() {
-    seek.value = formatTime(sound.value?.seek());
-    duration.value = formatTime(sound.value?.duration());
+    seek.value = formatTime(audio.value?.seek());
+    duration.value = formatTime(audio.value?.duration());
 
     if (!hasPressPrevNextButton.value) {
       playerProgress.value = String(
-        (sound.value?.seek() / sound.value?.duration()) * 100
+        (audio.value?.seek() / audio.value?.duration()) * 100
       );
     }
 
-    if (sound.value?.playing()) {
+    if (audio.value?.playing()) {
       isSongEnd.value = false;
       isSongPlaying.value = "play";
       requestAnimationFrame(progress);
@@ -125,18 +125,21 @@ export const usePlayerStore = defineStore("player", () => {
   }
 
   function updateSeek(event: Event) {
-    if (!sound.value?.playing) return;
+    if (!audio.value?.playing) return;
     const percentage = (event.target as HTMLInputElement).value;
-    const seconds = (sound.value?.duration() / 100) * Number(percentage);
+    const seconds = (audio.value?.duration() / 100) * Number(percentage);
 
-    sound.value?.seek(seconds);
-    sound.value?.once("seek", () => requestAnimationFrame(progress));
+    audio.value?.seek(seconds);
+    audio.value?.once(
+      "seek",
+      debounce(() => requestAnimationFrame(progress))
+    );
   }
   //** --- Action ---- *//
 
   //** --- Getters ---- *//
   const isPlaying = computed(() =>
-    sound.value?.playing ? sound.value.playing() : false
+    audio.value?.playing ? audio.value.playing() : false
   );
 
   const getAllSongs = computed(() => songs.value);
