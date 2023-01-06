@@ -16,6 +16,7 @@ export const usePlayerStore = defineStore("player", () => {
   const isSongPlaying = ref<string>("stop");
   const playerProgress = ref<string>("0");
   const isSongEnd = ref<boolean>(false);
+  const hasPressPrevNextButton = ref<boolean>(false);
   //** --- state ---- *//
 
   //** --- Action ---- *//
@@ -30,6 +31,7 @@ export const usePlayerStore = defineStore("player", () => {
       html5: true,
       loop: false,
       onplay: () => {
+        hasPressPrevNextButton.value = false;
         requestAnimationFrame(progress);
       },
       onend: () => {
@@ -44,6 +46,7 @@ export const usePlayerStore = defineStore("player", () => {
 
   function playNextSong() {
     let songIndx: number = 0;
+    hasPressPrevNextButton.value = true;
     const currentSongId: string = current_song.value.docId;
     const playListLength: number = getAllSongs.value.length - 1;
 
@@ -60,6 +63,7 @@ export const usePlayerStore = defineStore("player", () => {
 
   function playPreviousSong() {
     let songIndx: number = 0;
+    hasPressPrevNextButton.value = true;
     const currentSongId: string = current_song.value.docId;
     const playListLength: number = getAllSongs.value.length - 1;
 
@@ -97,13 +101,15 @@ export const usePlayerStore = defineStore("player", () => {
     seek.value = formatTime(sound.value?.seek());
     duration.value = formatTime(sound.value?.duration());
 
-    if (sound.value?.playing()) {
-      isSongEnd.value = false;
-      isSongPlaying.value = "play";
+    if (!hasPressPrevNextButton.value) {
       playerProgress.value = String(
         (sound.value?.seek() / sound.value?.duration()) * 100
       );
+    }
 
+    if (sound.value?.playing()) {
+      isSongEnd.value = false;
+      isSongPlaying.value = "play";
       requestAnimationFrame(progress);
     }
   }
