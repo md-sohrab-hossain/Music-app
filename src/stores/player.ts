@@ -1,6 +1,7 @@
 import { Howl, Howler } from "howler";
 import { computed, ref } from "vue";
 import { defineStore } from "pinia";
+import { debounce } from "@/utility/debounce";
 import { formatTime } from "@/utility/helper";
 import type { DocumentData } from "firebase/firestore";
 
@@ -44,7 +45,7 @@ export const usePlayerStore = defineStore("player", () => {
     sound.value.play();
   }
 
-  function playNextSong() {
+  const NextSong = () => {
     let songIndx: number = 0;
     hasPressPrevNextButton.value = true;
     const currentSongId: string = current_song.value.docId;
@@ -59,9 +60,9 @@ export const usePlayerStore = defineStore("player", () => {
       }
       songIndx++;
     }
-  }
+  };
 
-  function playPreviousSong() {
+  const PreviousSong = () => {
     let songIndx: number = 0;
     hasPressPrevNextButton.value = true;
     const currentSongId: string = current_song.value.docId;
@@ -76,7 +77,10 @@ export const usePlayerStore = defineStore("player", () => {
       }
       songIndx++;
     }
-  }
+  };
+
+  const playNextSong = debounce(() => NextSong());
+  const playPreviousSong = debounce(() => PreviousSong());
 
   function toggleAudio() {
     if (!sound.value?.playing) return;
